@@ -1,0 +1,14 @@
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.exe
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.deps.json
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.runtimeconfig.json
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.pdb
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.AssemblyInfoInputs.cache
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.AssemblyInfo.cs
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.CoreCompileInputs.cache
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\refint\indexer.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.pdb
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.genruntimeconfig.cache
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\ref\indexer.dll
