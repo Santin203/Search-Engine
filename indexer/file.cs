@@ -1,34 +1,30 @@
 using System;
+using System.Dynamic;
 using System.IO;
 
 namespace FilesSpace
 {
-    public class Files
+    public abstract class Files
     {
         public string fileData;
         public int nTerms;
         public (string term, int frequency)[] terms;
 
-        public Files(string data, int termNumber, (string term, int frequency)[] termsList)
+        //Constructor for Files class, default values included
+        public Files(string data = "", int termNumber = -1, (string term, int frequency)[] termsList = null)
         {
             fileData = data;
             nTerms = termNumber;
-            terms = termsList;
+            terms = termsList ?? new (string, int)[1] { ("", -1) };  // Initialize if termsList is null
         }
 
-        //Build instance of the Files Class
-        public static Files ExtractContent()
+        //Build instance of the Current Class
+        public bool ExtractContent()
         {
-            //Attribute values to build class
-            //Initialize to dummy values or leave as null
-            string fileData;
-            (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
-            int nTerms = -1;
-
             Console.WriteLine("File build has started.");
 
             //Read data from file
-            fileData = GetFileData();
+            this.fileData = this.GetFileData();
 
             //File found, raw data stored
             if(fileData != null)
@@ -41,25 +37,48 @@ namespace FilesSpace
                 {
                     Console.WriteLine("File data parsed succesfully!");
                     nTerms = terms.Length;
+                    return true;
                 }
                 //Error in parsing fileData
                 else
                 {
                     Console.WriteLine("File data could not be parsed.");
+                    return false;
                 }
             }
             //File not found
             else
             {
                 Console.WriteLine("File data could not be read.");
+                return false;
             }
-            return(new Files(fileData,nTerms,terms));
         }
 
         //Get file name from user, return data
-        public static string GetFileData()
+        protected abstract string GetFileData();
+        
+        protected static (string term, int frequency)[] ParseData(string rawData)
         {
-            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
+            //Intialize tuple array to dummy value
+            (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
+
+            //Write code for stemming algorithm here.
+
+            return(terms);
+        }
+    }
+
+    public class TxtFiles: Files
+    {
+        // Constructor for PdfFiles that calls the base constructor
+        public TxtFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        : base(data, termNumber, termsList)
+        {
+        }
+
+        protected override string GetFileData()
+        {
+            Console.WriteLine("Please write the name of the file you want to read from: ");
             string fileName = Console.ReadLine();
 
             string fileData = null;
@@ -80,16 +99,6 @@ namespace FilesSpace
                 }
             }
             return(fileData);
-        }
-
-        public static (string term, int frequency)[] ParseData(string rawData)
-        {
-            //Intialize tuple array to dummy value
-            (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
-
-            //Write code for stemming algorithm here.
-
-            return(terms);
         }
     }
 
