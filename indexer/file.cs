@@ -78,7 +78,40 @@ namespace FilesSpace
 
         protected override string GetFileData()
         {
-            Console.WriteLine("Please write the name of the file you want to read from: ");
+            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
+            string fileName = Console.ReadLine();
+
+            string fileData = null;
+
+            if(File.Exists(fileName))
+            {
+                try
+                {
+                    fileData = File.ReadAllText(fileName);
+                }
+                catch(FileNotFoundException)
+                {
+                    Console.WriteLine($"File {fileName} not found in current directory.");
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
+                }
+            }
+            return(fileData);
+        }
+    }
+
+    public class PdfFiles: Files
+    {
+        public PdfFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        : base(data, termNumber, termsList)
+        {
+        }
+
+        protected override string GetFileData()
+        {
+            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
             string fileName = Console.ReadLine();
 
             string fileData = null;
