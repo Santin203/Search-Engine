@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TFIDFExample
+namespace Indexer
 {
     class Program
     {
