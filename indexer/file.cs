@@ -115,10 +115,10 @@ namespace FilesSpace
         protected override string GetFileData()
         {
             Console.WriteLine("Please write the name of the PDF file you want to read from: ");
-            string fileName = Console.ReadLine();
+            string fileName = Console.ReadLine() ?? string.Empty;
 
-            string fileData = null;
-            string pageData = null;
+            string fileData = string.Empty;
+            string pageData = string.Empty;
 
             if(File.Exists(fileName))
             {
@@ -150,7 +150,7 @@ namespace FilesSpace
                     Console.WriteLine($"An I/O error occurred: {ex.Message}");
                 }
             }
-            return(fileData);
+            return fileData ?? string.Empty;
         }
     }
 
