@@ -27,3 +27,13 @@ C:\Users\santi\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\refint\indexe
 C:\Users\santi\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.pdb
 C:\Users\santi\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.genruntimeconfig.cache
 C:\Users\santi\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\ref\indexer.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Core.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.DocumentLayoutAnalysis.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Fonts.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Package.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Tokenization.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Tokens.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.dll
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.AssemblyReference.cache
+C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.CopyComplete

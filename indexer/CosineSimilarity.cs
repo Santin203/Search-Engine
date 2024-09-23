@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Indexer
 {
@@ -6,27 +7,44 @@ namespace Indexer
     {
         private double _similarityMeasure;
 
-        public double ComputeSimilarity(double[] vectorA, double[] vectorB)
+        private void checkVectorLength(double[] vectorA, double[] vectorB)
         {
             if (vectorA.Length != vectorB.Length)
             {
-                throw new ArgumentException("Vectors must have the same length.");
+                Console.WriteLine("Error: Vector lengths do not match.");
             }
 
-            double dotProduct = 0;
-            double normA = 0;
-            double normB = 0;
+        }
 
+        private double computeMagnitude(double[] vector)
+        {
+            double magnitude = 0;
+            for (int i = 0; i < vector.Length; i++)
+            {
+                magnitude += Math.Pow(vector[i], 2);
+            }
+            return Math.Sqrt(magnitude);
+        }
+
+        private double computeDotProduct(double[] vectorA, double[] vectorB)
+        {
+            double dotProduct = 0;
             for (int i = 0; i < vectorA.Length; i++)
             {
                 dotProduct += vectorA[i] * vectorB[i];
-                normA += Math.Pow(vectorA[i], 2);
-                normB += Math.Pow(vectorB[i], 2);
             }
-
-            return dotProduct / (Math.Sqrt(normA) * Math.Sqrt(normB));
+            return dotProduct;
         }
 
+        public double ComputeSimilarity(double[] vectorA, double[] vectorB)
+        {
+            checkVectorLength(vectorA, vectorB);
+            double dotProduct = computeDotProduct(vectorA, vectorB);
+            double magnitudeA = computeMagnitude(vectorA);
+            double magnitudeB = computeMagnitude(vectorB);
+            _similarityMeasure = dotProduct / (magnitudeA * magnitudeB);
+            return _similarityMeasure;
+        }
 
     }
 }
