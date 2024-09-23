@@ -85,14 +85,17 @@ namespace FilesSpace
 
             if(File.Exists(fileName))
             {
+                //Try read file
                 try
                 {
                     fileData = File.ReadAllText(fileName);
                 }
+                //File was not found
                 catch(FileNotFoundException)
                 {
                     Console.WriteLine($"File {fileName} not found in current directory.");
                 }
+                //IO error
                 catch (IOException ex)
                 {
                     Console.WriteLine($"An I/O error occurred: {ex.Message}");
@@ -111,21 +114,37 @@ namespace FilesSpace
 
         protected override string GetFileData()
         {
-            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
+            Console.WriteLine("Please write the name of the PDF file you want to read from: ");
             string fileName = Console.ReadLine();
 
             string fileData = null;
+            string pageData = null;
 
             if(File.Exists(fileName))
             {
+                //Try read file
                 try
                 {
-                    fileData = File.ReadAllText(fileName);
+                    fileData = "";
+                    using (var pdf = PdfDocument.Open(fileName))
+                    {
+                        //Iterate through pages
+                        foreach (var page in pdf.GetPages())
+                        {
+                            //raw text of the page's content stream.
+                            pageData = page.Text;
+
+                            //Concatinate with previous data collected
+                            fileData = string.Concat(fileData, pageData);
+                        }
+                    }
                 }
+                //File was not found
                 catch(FileNotFoundException)
                 {
                     Console.WriteLine($"File {fileName} not found in current directory.");
                 }
+                //IO error
                 catch (IOException ex)
                 {
                     Console.WriteLine($"An I/O error occurred: {ex.Message}");
