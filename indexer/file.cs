@@ -11,7 +11,7 @@ namespace FilesSpace
         public (string term, int frequency)[] terms;
 
         //Constructor for Files class, default values included
-        public Files(string data = "", int termNumber = -1, (string term, int frequency)[] termsList = null)
+        public Files(string data = "", int termNumber = -1, (string term, int frequency)[]? termsList = null)
         {
             fileData = data;
             nTerms = termNumber;
@@ -79,9 +79,9 @@ namespace FilesSpace
         protected override string GetFileData()
         {
             Console.WriteLine("Please write the name of the TXT file you want to read from: ");
-            string fileName = Console.ReadLine();
+            string fileName = Console.ReadLine() ?? string.Empty;
 
-            string fileData = null;
+            string fileData = string.Empty;
 
             if(File.Exists(fileName))
             {
@@ -101,7 +101,7 @@ namespace FilesSpace
                     Console.WriteLine($"An I/O error occurred: {ex.Message}");
                 }
             }
-            return(fileData);
+            return fileData ?? string.Empty;
         }
     }
 
