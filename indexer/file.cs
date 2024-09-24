@@ -1,6 +1,7 @@
 using System;
 using HtmlAgilityPack;
 using UglyToad.PdfPig;
+using Newtonsoft.Json;
 using System.Dynamic;
 using System.IO;
 
@@ -156,7 +157,7 @@ namespace FilesSpace
         }
     }
 
-        public class HTMLFiles: Files
+    public class HTMLFiles: Files
     {
         public HTMLFiles(string data, int termNumber, (string term, int frequency)[] termsList)
         : base(data, termNumber, termsList)
@@ -193,6 +194,56 @@ namespace FilesSpace
                 }
             }
             return fileData ?? string.Empty;
+        }
+    }
+
+    public class JsonFiles: Files
+    {
+        public JsonFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        : base(data, termNumber, termsList)
+        {
+        }
+
+        protected override string GetFileData()
+        {
+            Console.WriteLine("Please write the name of the JSON file you want to read from: ");
+            string fileName = Console.ReadLine() ?? string.Empty;
+
+            string fileData = string.Empty;
+
+            if(File.Exists(fileName))
+            {
+                //Try read file
+                try
+                {
+                    fileData = File.ReadAllText(fileName);
+                    fileData = this.ParseJson(fileData);
+                }
+                //File was not found
+                catch(FileNotFoundException)
+                {
+                    Console.WriteLine($"File {fileName} not found in current directory.");
+                }
+                //IO error
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
+                }
+            }
+            return fileData ?? string.Empty;
+        }
+
+        protected string ParseJson(string rawText)
+        {
+            string parsedText = "";
+
+            rawText.Replace(":", "");
+            rawText.Replace("\"", "");
+            rawText.Replace(",", "");
+            rawText.Replace("{", "");
+            rawText.Replace("}", "");
+
+            return parsedText;
         }
     }
 
