@@ -4,6 +4,7 @@ using UglyToad.PdfPig;
 using Newtonsoft.Json;
 using System.Dynamic;
 using System.IO;
+using System.Xml;
 
 namespace FilesSpace
 {
@@ -216,7 +217,25 @@ namespace FilesSpace
 
         protected override string GetRawText(string filePath)
         {
-            throw new NotImplementedException();
+            string fileData = "";
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("path_to_xml_file.xml");
+
+            // Access the root element
+            XmlElement root = xmlDoc.DocumentElement;
+
+            //Join the name of the root element twice (opening and closing tag) to the empty data string.
+            string.Join(" ", fileData, root.Name, root.Name);
+
+            // Iterate over all child nodes of the root element
+            foreach (XmlNode node in root.ChildNodes)
+            {
+                // Join the name of the element twice (opening and closing tag) and inner text to the collected data.
+                string.Join(" ",fileData, node.Name, node.Name);
+                string.Join(" ", fileData, node.InnerText);
+            }
+
+            return fileData;
         }
     }
 
@@ -228,7 +247,12 @@ namespace FilesSpace
             }
         protected override string GetRawText(string filePath)
         {
-            throw new NotImplementedException();
+            string fileData;
+
+            fileData = File.ReadAllText(filePath);
+            fileData = this.RemoveBadChars(fileData);
+
+            return fileData;
         }
     }
 }
