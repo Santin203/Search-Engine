@@ -6,7 +6,7 @@ using System.Dynamic;
 using System.IO;
 using System.Xml;
 
-namespace FilesSpace
+namespace Indexer
 {
     public abstract class Files
     {
