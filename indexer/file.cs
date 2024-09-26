@@ -1,6 +1,10 @@
 using System;
+using HtmlAgilityPack;
+using UglyToad.PdfPig;
+using Newtonsoft.Json;
 using System.Dynamic;
 using System.IO;
+using System.Xml;
 
 namespace FilesSpace
 {
@@ -55,9 +59,48 @@ namespace FilesSpace
         }
 
         //Get file name from user, return data
-        protected abstract string GetFileData();
+        protected string GetFileData()
+        {
+            Console.WriteLine("Please write the name of the file you want to read from: ");
+            string fileName = Console.ReadLine() ?? string.Empty;
+
+            string fileData = string.Empty;
+
+            if(File.Exists(fileName))
+            {
+                //Try read file
+                try
+                {
+                    fileData = GetRawText(fileName);
+                }
+                //File was not found
+                catch(FileNotFoundException)
+                {
+                    Console.WriteLine($"File {fileName} not found in current directory.");
+                }
+                //IO error
+                catch (IOException ex)
+                {
+                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
+                }
+            }
+            return fileData ?? string.Empty;
+        }
+
+        protected abstract string GetRawText(string filePath);
         
-        protected static (string term, int frequency)[] ParseData(string rawData)
+        protected string RemoveBadChars(string rawText)
+        {
+            string[] specialChars = { "@", "#", "!", "$", ",", ".", ";", "(", ")", "[", "]", "{", "}", "\"", "'" };
+
+            // Replace each special character with an empty string
+            foreach (string specialChar in specialChars)
+            {
+                rawText = rawText.Replace(specialChar, "");
+            }
+            return rawText;
+        }
+        protected (string term, int frequency)[] ParseData(string rawData)
         {
             //Intialize tuple array to dummy value
             (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
@@ -76,29 +119,16 @@ namespace FilesSpace
         {
         }
 
-        protected override string GetFileData()
+        protected override string GetRawText(string filePath)
         {
-            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
-            string fileName = Console.ReadLine() ?? string.Empty;
+            string fileData;
 
-            string fileData = string.Empty;
+            //Read all text from file
+            fileData = File.ReadAllText(filePath);
 
-            if(File.Exists(fileName))
-            {
-                try
-                {
-                    fileData = File.ReadAllText(fileName);
-                }
-                catch(FileNotFoundException)
-                {
-                    Console.WriteLine($"File {fileName} not found in current directory.");
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
-                }
-            }
-            return fileData ?? string.Empty;
+            //Remove special chars from string and return
+            this.RemoveBadChars(fileData);
+            return fileData;
         }
     }
 
@@ -109,30 +139,120 @@ namespace FilesSpace
         {
         }
 
-        protected override string GetFileData()
+        protected override string GetRawText(string filePath)
         {
-            Console.WriteLine("Please write the name of the TXT file you want to read from: ");
-            string fileName = Console.ReadLine() ?? string.Empty;
+            string pageData;
 
-            string fileData = string.Empty;
-
-            if(File.Exists(fileName))
+            string fileData = "";
+            using (var pdf = PdfDocument.Open(filePath))
             {
-                try
+                //Iterate through pages
+                foreach (var page in pdf.GetPages())
                 {
-                    fileData = File.ReadAllText(fileName);
-                }
-                catch(FileNotFoundException)
-                {
-                    Console.WriteLine($"File {fileName} not found in current directory.");
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
+                    //raw text of the page's content stream.
+                    pageData = page.Text;
+
+                    //Concatinate with previous data collected
+                    fileData = string.Join(" ",fileData, pageData);
                 }
             }
-            return(fileData);
+
+            //Remove special chars from string and return
+            this.RemoveBadChars(fileData);
+            return fileData;
         }
     }
 
+    public class HTMLFiles: Files
+    {
+        public HTMLFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        : base(data, termNumber, termsList)
+        {
+        }
+
+        protected override string GetRawText(string filePath)
+        {
+            string fileData = "";
+            //Make new class to store html doc
+            HtmlDocument htmlDoc = new HtmlDocument();
+
+            //Load file into object
+            htmlDoc.Load(filePath);
+
+            //Extract text content from html file
+            fileData = htmlDoc.DocumentNode.InnerText;
+
+            //Remove special chars from string and return
+            this.RemoveBadChars(fileData);
+            return fileData;
+        }
+    }
+
+    public class JsonFiles: Files
+    {
+        public JsonFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        : base(data, termNumber, termsList)
+        {
+        }
+
+        protected override string GetRawText(string filePath)
+        {
+            string fileData = "";
+
+            //Read file text directly
+            fileData = File.ReadAllText(filePath);
+
+            //Remove special chars from string and return
+            this.RemoveBadChars(fileData);
+            return fileData;
+        }
+    }
+
+    public class XmlFiles: Files
+    {
+        public XmlFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+            : base(data, termNumber, termsList)
+            {
+            }
+
+        protected override string GetRawText(string filePath)
+        {
+            string fileData = "";
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("path_to_xml_file.xml");
+
+            // Access the root element
+            XmlElement root = xmlDoc.DocumentElement;
+
+            //Join the name of the root element twice (opening and closing tag) to the empty data string.
+            string.Join(" ", fileData, root.Name, root.Name);
+
+            // Iterate over all child nodes of the root element
+            foreach (XmlNode node in root.ChildNodes)
+            {
+                // Join the name of the element twice (opening and closing tag) and inner text to the collected data.
+                string.Join(" ",fileData, node.Name, node.Name);
+                string.Join(" ", fileData, node.InnerText);
+            }
+
+            return fileData;
+        }
+    }
+
+    public class CSVFiles: Files
+    {
+        public CSVFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+            : base(data, termNumber, termsList)
+            {
+            }
+        protected override string GetRawText(string filePath)
+        {
+            string fileData;
+
+            fileData = File.ReadAllText(filePath);
+            fileData = this.RemoveBadChars(fileData);
+
+            return fileData;
+        }
+    }
 }

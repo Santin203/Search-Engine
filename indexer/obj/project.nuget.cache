@@ -1,11 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "Ae0ARI8tqXrFm+XWCVsAR3vqXwmrOV/M4UchQh4qHXSs0y7cBsP5RQyt3XZXfLhn1emLe8nDNkInL/Q0nvbbVw==",
+  "dgSpecHash": "9Xut+DuS6jk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Casas\\repos\\csharp-Search-Engine\\indexer\\indexer.csproj",
+  "projectFilePath": "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\indexer\\indexer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Casas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\Casas\\.nuget\\packages\\pdfpig\\0.1.8\\pdfpig.0.1.8.nupkg.sha512"
+    "C:\\Users\\jgabr\\.nuget\\packages\\htmlagilitypack\\1.11.66\\htmlagilitypack.1.11.66.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\pdfpig\\0.1.8\\pdfpig.0.1.8.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.20\\microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.20\\microsoft.netcore.app.host.win-x64.7.0.20.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.20\\microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "C:\\Users\\jgabr\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.20\\microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512"
   ],
   "logs": []
 }
