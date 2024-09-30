@@ -104,10 +104,20 @@ namespace Indexer
         {
             //Intialize tuple array to dummy value
             (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
-
+            int substringStart = 0;
+            int substringEnd = 0;
             //Write code for stemming algorithm here.
+            for(int i = 0; i < rawData.Length; i++)
+            {
+
+            }
 
             return(terms);
+        }
+
+        protected string StemmWord(string rawString)
+        {
+            return rawString;
         }
     }
 
