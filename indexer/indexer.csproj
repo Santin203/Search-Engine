@@ -11,6 +11,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.66" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="PdfPig" Version="0.1.8" />
+    <PackageReference Include="Porter2Stemmer" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

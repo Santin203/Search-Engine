@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Dynamic;
 using System.IO;
 using System.Xml;
+using Porter2Stemmer;
 
 namespace Indexer
 {
@@ -12,14 +13,14 @@ namespace Indexer
     {
         public string fileData;
         public int nTerms;
-        public (string term, int frequency)[] terms;
+        public List<(string term, int frequency)> terms; // Change from array to List<T>
 
         //Constructor for Files class, default values included
-        public Files(string data = "", int termNumber = -1, (string term, int frequency)[]? termsList = null)
+        public Files(string data = "", int termNumber = -1, List<(string term, int frequency)>? termsList = null)
         {
             fileData = data;
             nTerms = termNumber;
-            terms = termsList ?? new (string, int)[1] { ("", -1) };  // Initialize if termsList is null
+            terms = termsList ?? new List<(string, int)> { ("", -1) };  // Initialize if termsList is null
         }
 
         //Build instance of the Current Class
@@ -33,14 +34,14 @@ namespace Indexer
             //File found, raw data stored
             if(fileData != null)
             {
-                Console.WriteLine("File data read succesfully!");
+                Console.WriteLine("File data read successfully!");
                 terms = ParseData(fileData);
 
-                //Parsing of fileData succesfull
+                //Parsing of fileData successful
                 if(terms[0].term != "")
                 {
-                    Console.WriteLine("File data parsed succesfully!");
-                    nTerms = terms.Length;
+                    Console.WriteLine("File data parsed successfully!");
+                    nTerms = terms.Count; // Change from Length to Count
                     return true;
                 }
                 //Error in parsing fileData
@@ -68,7 +69,7 @@ namespace Indexer
 
             if(File.Exists(fileName))
             {
-                //Try read file
+                //Try to read file
                 try
                 {
                     fileData = GetRawText(fileName);
@@ -100,32 +101,86 @@ namespace Indexer
             }
             return rawText;
         }
-        protected (string term, int frequency)[] ParseData(string rawData)
-        {
-            //Intialize tuple array to dummy value
-            (string term, int frequency)[] terms = new (string, int)[1]{("",-1)};
-            int substringStart = 0;
-            int substringEnd = 0;
-            //Write code for stemming algorithm here.
-            for(int i = 0; i < rawData.Length; i++)
-            {
 
+        protected List<(string term, int frequency)> ParseData(string rawData)
+        {
+            // Initialize list to dummy value
+            List<(string term, int frequency)> terms = new List<(string, int)>
+            {
+                ("", -1)
+            };
+
+            // Create tuple for copying and editing values
+            (string term, int frequency) prevTuple;
+
+            // Helper variables
+            int n;
+            bool found;
+
+            // Write code for stemming algorithm here.
+            string[] rawWords = rawData.Split(" ");
+            rawWords = StemmWords(rawWords);
+
+            // Traverse array of stemmed words and count the number of appearances
+            foreach(string word in rawWords)
+            {
+                // If list still hasn't been initialized with real values
+                if(terms.Count == 1 && terms[0].term == "")
+                {
+                    terms[0] = (word, 1);
+                }
+                // Else traverse list and search for current word
+                else
+                {
+                    found = false;
+                    for(int j = 0; j < terms.Count; j++)
+                    {
+                        // If word is inside current tuple, increase frequency
+                        if(terms[j].term == word)
+                        {
+                            prevTuple = terms[j];
+
+                            n = prevTuple.frequency;
+
+                            terms[j] = (prevTuple.term, n + 1);
+                            found = true;
+                            break; // Break after updating to avoid unnecessary iterations
+                        }
+                    }
+                    // Else add to list
+                    if(!found)
+                    {
+                        terms.Add((word, 1));
+                    }
+                }
             }
 
-            return(terms);
+            return terms;
         }
 
-        protected string StemmWord(string rawString)
+        protected string[] StemmWords(string[] rawStrings)
         {
-            return rawString;
+            // Make new instance of stemmer
+            var stemmer = new EnglishPorter2Stemmer();
+
+            // Traverse all strings in array
+            for(int i = 0; i < rawStrings.Length; i++)
+            {
+                // Stem word in current i index
+                var stemmed = stemmer.Stem(rawStrings[i]);
+
+                // Assign stemmed word to i index
+                rawStrings[i] = stemmed.Value;
+            }
+            return rawStrings;
         }
     }
 
-    public class TxtFiles: Files
+    public class TxtFiles : Files
     {
-        // Constructor for PdfFiles that calls the base constructor
-        public TxtFiles(string data, int termNumber, (string term, int frequency)[] termsList)
-        : base(data, termNumber, termsList)
+        // Constructor for TxtFiles that calls the base constructor
+        public TxtFiles(string data, int termNumber, List<(string term, int frequency)> termsList) 
+            : base(data, termNumber, termsList)
         {
         }
 
@@ -133,19 +188,19 @@ namespace Indexer
         {
             string fileData;
 
-            //Read all text from file
+            // Read all text from file
             fileData = File.ReadAllText(filePath);
 
-            //Remove special chars from string and return
+            // Remove special chars from string and return
             this.RemoveBadChars(fileData);
             return fileData;
         }
     }
 
-    public class PdfFiles: Files
+    public class PdfFiles : Files
     {
-        public PdfFiles(string data, int termNumber, (string term, int frequency)[] termsList)
-        : base(data, termNumber, termsList)
+        public PdfFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
+            : base(data, termNumber, termsList)
         {
         }
 
@@ -156,52 +211,52 @@ namespace Indexer
             string fileData = "";
             using (var pdf = PdfDocument.Open(filePath))
             {
-                //Iterate through pages
+                // Iterate through pages
                 foreach (var page in pdf.GetPages())
                 {
-                    //raw text of the page's content stream.
+                    // Raw text of the page's content stream.
                     pageData = page.Text;
 
-                    //Concatinate with previous data collected
-                    fileData = string.Join(" ",fileData, pageData);
+                    // Concatenate with previous data collected
+                    fileData = string.Join(" ", fileData, pageData);
                 }
             }
 
-            //Remove special chars from string and return
+            // Remove special chars from string and return
             this.RemoveBadChars(fileData);
             return fileData;
         }
     }
 
-    public class HTMLFiles: Files
+    public class HTMLFiles : Files
     {
-        public HTMLFiles(string data, int termNumber, (string term, int frequency)[] termsList)
-        : base(data, termNumber, termsList)
+        public HTMLFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
+            : base(data, termNumber, termsList)
         {
         }
 
         protected override string GetRawText(string filePath)
         {
             string fileData = "";
-            //Make new class to store html doc
+            // Make new class to store html doc
             HtmlDocument htmlDoc = new HtmlDocument();
 
-            //Load file into object
+            // Load file into object
             htmlDoc.Load(filePath);
 
-            //Extract text content from html file
+            // Extract text content from html file
             fileData = htmlDoc.DocumentNode.InnerText;
 
-            //Remove special chars from string and return
+            // Remove special chars from string and return
             this.RemoveBadChars(fileData);
             return fileData;
         }
     }
 
-    public class JsonFiles: Files
+    public class JsonFiles : Files
     {
-        public JsonFiles(string data, int termNumber, (string term, int frequency)[] termsList)
-        : base(data, termNumber, termsList)
+        public JsonFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
+            : base(data, termNumber, termsList)
         {
         }
 
@@ -209,21 +264,21 @@ namespace Indexer
         {
             string fileData = "";
 
-            //Read file text directly
+            // Read file text directly
             fileData = File.ReadAllText(filePath);
 
-            //Remove special chars from string and return
+            // Remove special chars from string and return
             this.RemoveBadChars(fileData);
             return fileData;
         }
     }
 
-    public class XmlFiles: Files
+    public class XmlFiles : Files
     {
-        public XmlFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        public XmlFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
-            {
-            }
+        {
+        }
 
         protected override string GetRawText(string filePath)
         {
@@ -234,14 +289,14 @@ namespace Indexer
             // Access the root element
             XmlElement root = xmlDoc.DocumentElement;
 
-            //Join the name of the root element twice (opening and closing tag) to the empty data string.
+            // Join the name of the root element twice (opening and closing tag) to the empty data string.
             string.Join(" ", fileData, root.Name, root.Name);
 
             // Iterate over all child nodes of the root element
             foreach (XmlNode node in root.ChildNodes)
             {
                 // Join the name of the element twice (opening and closing tag) and inner text to the collected data.
-                string.Join(" ",fileData, node.Name, node.Name);
+                string.Join(" ", fileData, node.Name, node.Name);
                 string.Join(" ", fileData, node.InnerText);
             }
 
@@ -249,12 +304,13 @@ namespace Indexer
         }
     }
 
-    public class CSVFiles: Files
+    public class CSVFiles : Files
     {
-        public CSVFiles(string data, int termNumber, (string term, int frequency)[] termsList)
+        public CSVFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
-            {
-            }
+        {
+        }
+
         protected override string GetRawText(string filePath)
         {
             string fileData;

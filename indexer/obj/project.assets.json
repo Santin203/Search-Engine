@@ -76,6 +76,19 @@
             "related": ".Core.pdb;.Core.xml;.DocumentLayoutAnalysis.pdb;.DocumentLayoutAnalysis.xml;.Fonts.pdb;.Fonts.xml;.Package.pdb;.Package.xml;.pdb;.Tokenization.pdb;.Tokenization.xml;.Tokens.pdb;.Tokens.xml;.xml"
           }
         }
+      },
+      "Porter2Stemmer/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Porter2Stemmer.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Porter2Stemmer.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
       }
     }
   },
@@ -337,13 +350,32 @@
         "pdfpig.nuspec",
         "pdfpig.png"
       ]
+    },
+    "Porter2Stemmer/1.0.0": {
+      "sha512": "naYdTjvnmUrigtpCzgPSkqbxJ+Zy/y0dB7pH6UZ7mI0QhdU0BcncyzrJu9gArX48KzVWxQVkP/V/SpbWuAqFFw==",
+      "type": "package",
+      "path": "porter2stemmer/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/net452/Porter2Stemmer.dll",
+        "lib/net452/Porter2Stemmer.pdb",
+        "lib/net452/Porter2Stemmer.xml",
+        "lib/netstandard2.0/Porter2Stemmer.dll",
+        "lib/netstandard2.0/Porter2Stemmer.pdb",
+        "lib/netstandard2.0/Porter2Stemmer.xml",
+        "porter2stemmer.1.0.0.nupkg.sha512",
+        "porter2stemmer.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "HtmlAgilityPack >= 1.11.66",
       "Newtonsoft.Json >= 13.0.3",
-      "PdfPig >= 0.1.8"
+      "PdfPig >= 0.1.8",
+      "Porter2Stemmer >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -399,6 +431,10 @@
           "PdfPig": {
             "target": "Package",
             "version": "[0.1.8, )"
+          },
+          "Porter2Stemmer": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [

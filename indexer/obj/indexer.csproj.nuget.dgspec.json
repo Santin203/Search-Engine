@@ -54,6 +54,10 @@
             "PdfPig": {
               "target": "Package",
               "version": "[0.1.8, )"
+            },
+            "Porter2Stemmer": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             }
           },
           "imports": [
