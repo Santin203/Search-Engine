@@ -24,12 +24,12 @@ namespace Indexer
         }
 
         //Build instance of the Current Class
-        public bool ExtractContent()
+        public bool ExtractContent(string filePath)
         {
             Console.WriteLine("File build has started.");
 
             //Read data from file
-            this.fileData = this.GetFileData();
+            this.fileData = this.GetFileData(filePath);
 
             //File found, raw data stored
             if(fileData != null)
@@ -60,31 +60,28 @@ namespace Indexer
         }
 
         //Get file name from user, return data
-        protected string GetFileData()
+        protected string GetFileData(string filePath)
         {
-            Console.WriteLine("Please write the name of the file you want to read from: ");
-            string fileName = Console.ReadLine() ?? string.Empty;
 
             string fileData = string.Empty;
 
-            if(File.Exists(fileName))
+
+            //Try to read file
+            try
             {
-                //Try to read file
-                try
-                {
-                    fileData = GetRawText(fileName);
-                }
-                //File was not found
-                catch(FileNotFoundException)
-                {
-                    Console.WriteLine($"File {fileName} not found in current directory.");
-                }
-                //IO error
-                catch (IOException ex)
-                {
-                    Console.WriteLine($"An I/O error occurred: {ex.Message}");
-                }
+                fileData = GetRawText(filePath);
             }
+            //File was not found
+            catch(FileNotFoundException)
+            {
+                Console.WriteLine($"File {filePath} not found in current directory.");
+            }
+            //IO error
+            catch (IOException ex)
+            {
+                Console.WriteLine($"An I/O error occurred: {ex.Message}");
+            }
+            
             return fileData ?? string.Empty;
         }
 
@@ -92,12 +89,12 @@ namespace Indexer
         
         protected string RemoveBadChars(string rawText)
         {
-            string[] specialChars = { "@", "#", "!", "$", ",", ".", ";", "(", ")", "[", "]", "{", "}", "\"", "'" };
+            string[] specialChars = { "@", "#", "!", "$", ",", ".", ";", "(", ")", "[", "]", "{", "}", "\"", "'", "\r", "\n" };
 
             // Replace each special character with an empty string
             foreach (string specialChar in specialChars)
             {
-                rawText = rawText.Replace(specialChar, "");
+                rawText = rawText.Replace(specialChar, " ");
             }
             return rawText;
         }
@@ -203,6 +200,10 @@ namespace Indexer
 
     public class PdfFiles : Files
     {
+        public PdfFiles()
+        {
+        }
+
         public PdfFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
         {

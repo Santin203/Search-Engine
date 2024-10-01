@@ -8,11 +8,21 @@
     ".NETCoreApp,Version=v7.0": {
       "indexer/1.0.0": {
         "dependencies": {
+          "HtmlAgilityPack": "1.11.66",
           "Newtonsoft.Json": "13.0.3",
-          "PdfPig": "0.1.8"
+          "PdfPig": "0.1.8",
+          "Porter2Stemmer": "1.0.0"
         },
         "runtime": {
           "indexer.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.11.66": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.11.66.0",
+            "fileVersion": "1.11.66.0"
+          }
         }
       },
       "Newtonsoft.Json/13.0.3": {
@@ -54,6 +64,14 @@
             "fileVersion": "0.1.8.0"
           }
         }
+      },
+      "Porter2Stemmer/1.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Porter2Stemmer.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -62,6 +80,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "HtmlAgilityPack/1.11.66": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kRlJ/rnvDzSPZv294uR+k3IR04eQO1IxdYJuUPPFETZ0W2NDDRiuZlfgYaDX17OVvODJFWj6+lsMOko/Xj5XVQ==",
+      "path": "htmlagilitypack/1.11.66",
+      "hashPath": "htmlagilitypack.1.11.66.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.3": {
       "type": "package",
@@ -76,6 +101,13 @@
       "sha512": "sha512-lrqrQPAwziQV2E5uImAg1i3SpxDn5XdJ8q3sjRBgEdx1quq1ZftnKNyfp3sTY0J7OxpA14ryGBSSUdoGLGCHjw==",
       "path": "pdfpig/0.1.8",
       "hashPath": "pdfpig.0.1.8.nupkg.sha512"
+    },
+    "Porter2Stemmer/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-naYdTjvnmUrigtpCzgPSkqbxJ+Zy/y0dB7pH6UZ7mI0QhdU0BcncyzrJu9gArX48KzVWxQVkP/V/SpbWuAqFFw==",
+      "path": "porter2stemmer/1.0.0",
+      "hashPath": "porter2stemmer.1.0.0.nupkg.sha512"
     }
   }
 }
