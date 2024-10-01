@@ -178,6 +178,10 @@ namespace Indexer
 
     public class TxtFiles : Files
     {
+        public TxtFiles()
+        {
+        }
+
         // Constructor for TxtFiles that calls the base constructor
         public TxtFiles(string data, int termNumber, List<(string term, int frequency)> termsList) 
             : base(data, termNumber, termsList)
@@ -230,6 +234,10 @@ namespace Indexer
 
     public class HTMLFiles : Files
     {
+        public HTMLFiles()
+        {
+        }
+
         public HTMLFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
         {
@@ -255,6 +263,10 @@ namespace Indexer
 
     public class JsonFiles : Files
     {
+        public JsonFiles()
+        {
+        }
+
         public JsonFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
         {
@@ -275,6 +287,10 @@ namespace Indexer
 
     public class XmlFiles : Files
     {
+        public XmlFiles()
+        {
+        }
+
         public XmlFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
         {
@@ -306,6 +322,10 @@ namespace Indexer
 
     public class CSVFiles : Files
     {
+        public CSVFiles()
+        {
+        }
+
         public CSVFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
             : base(data, termNumber, termsList)
         {
