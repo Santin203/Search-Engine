@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Indexer
 {
     public class SearchEngineCore
@@ -86,9 +88,32 @@ namespace Indexer
             return array;
         }
 
-        public void LoadIndex(string indexPath)
+        public static List<(string, List<int>)> LoadIndex(string filePath)
         {
-            // Logic to load an existing index
+            //Create empty list
+            List<(string indexedFilePath, List<int>)> readIndexer = new List<(string, List<int>)>{};  
+
+            string jsonData = File.ReadAllText(filePath);
+            readIndexer = JsonConvert.DeserializeObject<List<(string, List<int>)>>(jsonData);
+
+            return readIndexer;
+        }
+        public static string StoreIndex(List<(string filePath, List<int> vector)> indexData)
+        {
+            //Create a random number generator
+            Random idGenerator = new Random();
+            int id = idGenerator.Next(1000);
+
+            //Generate a file path
+            string filePath  = "Indexer" + id.ToString() + ".json";
+
+            //Serialize data into a Json file
+            string jsonSerialization = JsonConvert.SerializeObject(indexData, Formatting.Indented);
+            
+            //Write file
+            File.WriteAllText(filePath, jsonSerialization);
+            Console.WriteLine($"File written to {filePath}");
+            return filePath;
         }
 
         public List<string> Search(string query, int k)
