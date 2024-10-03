@@ -5,11 +5,11 @@ namespace Indexer
     public class SearchEngineCore
     {
         private Dictionary<string, Dictionary<string, double>> _index = new Dictionary<string, Dictionary<string, double>>();
-        private TfIdfVectorizer _vectorizer;
+        private TFIDF vectorizer;
 
         public SearchEngineCore()
         {
-            _vectorizer = new TfIdfVectorizer();
+            vectorizer = new TFIDF();
         }
 
         public void IndexFolder(string folderPath)
@@ -61,7 +61,7 @@ namespace Indexer
             }
 
             // Compute TF-IDF for all documents
-            var tfidfMatrix = _vectorizer.FitTransform(documents.ToArray());
+            var tfidfMatrix = vectorizer.FitTransform(documents.ToArray());
 
             // Store the indexed documents (TF-IDF vectors)
             for (int i = 0; i < filePaths.Count; i++)
@@ -80,10 +80,10 @@ namespace Indexer
 
         private double[] ToArray(Dictionary<string, double> vector)
         {
-            var array = new double[_vectorizer.Vocabulary.Count];
+            var array = new double[vectorizer.Vocabulary.Count];
             foreach (var term in vector)
             {
-                array[_vectorizer.Vocabulary[term.Key]] = term.Value;
+                array[vectorizer.Vocabulary[term.Key]] = term.Value;
             }
             return array;
         }
@@ -119,7 +119,7 @@ namespace Indexer
         public List<string> Search(string query, int k)
         {
             // Vectorize the search query using the same TF-IDF vectorizer
-            var queryVector = _vectorizer.Transform(new[] { query }).FirstOrDefault(); // Transform the query into a TF-IDF vector
+            var queryVector = vectorizer.Transform(new[] { query }).FirstOrDefault(); // Transform the query into a TF-IDF vector
 
             // Check if the query vector is empty or null
             if (queryVector == null || queryVector.Count == 0)

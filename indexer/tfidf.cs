@@ -4,51 +4,22 @@ using System.Linq;
 
 namespace Indexer
 {
-    public class TfIdfVectorizer
+    public class TFIDF : Indexer
     {
-        public Dictionary<string, int> Vocabulary { get; private set; }
         public Dictionary<string, double> Idf { get; private set; }
-        private string[] _documents;
         private bool _useIdf;
         private bool _smoothIdf;
 
-        public TfIdfVectorizer(bool useIdf = true, bool smoothIdf = true)
+        public TFIDF(bool useIdf = true, bool smoothIdf = true)
         {
-            Vocabulary = new Dictionary<string, int>();
             Idf = new Dictionary<string, double>();
-            _documents = Array.Empty<string>();
             _useIdf = useIdf;
             _smoothIdf = smoothIdf;
         }
 
-        // Tokenize a document into words (filtering stop words)
-        private List<string> Tokenize(string doc)
+        public override void Fit(string[] documents)
         {
-            var tokens = doc.ToLower().Split(' ').Where(word => word.Length > 0).ToList();
-            return tokens.Where(token => !StopWords.stopWordsList.Contains(token)).ToList(); // Filter stop words
-        }
-
-        // Build vocabulary from documents
-        private void BuildVocabulary(string[] documents)
-        {
-            int index = 0;
-            foreach (var doc in documents)
-            {
-                var tokens = Tokenize(doc);
-                foreach (var token in tokens)
-                {
-                    if (!Vocabulary.ContainsKey(token))
-                    {
-                        Vocabulary[token] = index++;
-                    }
-                }
-            }
-        }
-
-        // Fit the vectorizer to the documents
-        public void Fit(string[] documents)
-        {
-            _documents = documents;
+            Documents = documents;
             BuildVocabulary(documents);
             if (_useIdf)
             {
@@ -56,13 +27,12 @@ namespace Indexer
             }
         }
 
-        // Compute IDF values
         private void ComputeIdf()
         {
-            int docCount = _documents.Length;
+            int docCount = Documents.Length;
             var docFrequency = new Dictionary<string, int>();
 
-            foreach (var doc in _documents)
+            foreach (var doc in Documents)
             {
                 var tokens = Tokenize(doc).Distinct();
                 foreach (var token in tokens)
@@ -77,13 +47,13 @@ namespace Indexer
 
             foreach (var token in Vocabulary.Keys)
             {
-                double idfValue = Math.Log((double)(docCount + (_smoothIdf ? 1 : 0)) / (docFrequency.ContainsKey(token) ? docFrequency[token] + (_smoothIdf ? 1 : 0) : 1)) + 1;
+                double idfValue = Math.Log((double)(docCount + (_smoothIdf ? 1 : 0)) / 
+                                           (docFrequency.ContainsKey(token) ? docFrequency[token] + (_smoothIdf ? 1 : 0) : 1)) + 1;
                 Idf[token] = idfValue;
             }
         }
 
-        // Transform documents into their TF-IDF representations
-        public List<Dictionary<string, double>> Transform(string[] documents)
+        public override List<Dictionary<string, double>> Transform(string[] documents)
         {
             var tfidfVectors = new List<Dictionary<string, double>>();
 
@@ -112,8 +82,7 @@ namespace Indexer
             return tfidfVectors;
         }
 
-        // Fit the vectorizer and transform the documents in one go
-        public List<Dictionary<string, double>> FitTransform(string[] documents)
+        public override List<Dictionary<string, double>> FitTransform(string[] documents)
         {
             Fit(documents);
             return Transform(documents);
