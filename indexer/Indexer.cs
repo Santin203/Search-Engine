@@ -38,8 +38,28 @@ namespace Indexer
             }
         }
 
+        protected Dictionary<string, int> ComputeDocFrequency()
+        {
+            var docFrequency = new Dictionary<string, int>();
+
+            foreach (var doc in Documents)
+            {
+                var tokens = Tokenize(doc).Distinct();
+                foreach (var token in tokens)
+                {
+                    if (!docFrequency.ContainsKey(token))
+                    {
+                        docFrequency[token] = 0;
+                    }
+                    docFrequency[token]++;
+                }
+            }
+            return docFrequency;
+        }
+
         // Abstract methods to be implemented by child classes
         public abstract void Fit(string[] documents);
+        protected abstract void ComputeIdf();
         public abstract List<Dictionary<string, double>> Transform(string[] documents);
         public abstract List<Dictionary<string, double>> FitTransform(string[] documents);
     }
