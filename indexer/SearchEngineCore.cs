@@ -7,9 +7,15 @@ namespace Indexer
         private Dictionary<string, Dictionary<string, double>> index = new Dictionary<string, Dictionary<string, double>>();
         private Indexer vectorizer;
 
+        private SearchEngine distance;
+
         public SearchEngineCore()
         {
+            //Use TF-IDF by default
             vectorizer = new TFIDF();
+
+            //Use CosineSimilarity by default
+            distance = new CosineSimilarity();
         }
 
         public void IndexFolder(string folderPath)
@@ -82,11 +88,14 @@ namespace Indexer
             bool askIndexer = true;
             while(askIndexer)
             {
+                //Ask for indexing type
                 Console.WriteLine("Please select an indexer type:\n1- TF-IDF\n2- BM25");
                 string command = Console.ReadLine()?.Trim();
+
+                //Confirm is numeric input
                 if (int.TryParse(command, out int commandNumb))
                 {
-                    // Switch based on the result after parsing
+                    //Select type and change vectorizer if needed
                     switch (commandNumb)
                     {
                         case 1:
@@ -155,8 +164,8 @@ namespace Indexer
 
         public List<string> Search(string query, int k)
         {
-            // Vectorize the search query using the same TF-IDF vectorizer
-            var queryVector = vectorizer.Transform(new[] { query }).FirstOrDefault(); // Transform the query into a TF-IDF vector
+            // Vectorize the search query using the same vectorizer
+            var queryVector = vectorizer.Transform(new[] { query }).FirstOrDefault(); // Transform the query into a vector
 
             // Check if the query vector is empty or null
             if (queryVector == null || queryVector.Count == 0)
@@ -166,7 +175,6 @@ namespace Indexer
             }
 
             // Compute cosine similarity between the query and each document
-            var cosineSimilarity = new CosineSimilarity();
             var rankedResults = new List<(string, double)>();
 
             foreach (var docEntry in index)
@@ -176,7 +184,7 @@ namespace Indexer
                 var queryVectorArray = ToArray(queryVector);
 
                 // Calculate the cosine similarity
-                double similarity = cosineSimilarity.ComputeSimilarity(queryVectorArray, docVectorArray);
+                double similarity = distance.ComputeSimilarity(queryVectorArray, docVectorArray);
 
                 // Check for valid similarity scores
                 if (!double.IsNaN(similarity) && !double.IsInfinity(similarity))

@@ -36,7 +36,7 @@ namespace Indexer
             return dotProduct;
         }
 
-        public double ComputeSimilarity(double[] vectorA, double[] vectorB)
+        public override double ComputeSimilarity(double[] vectorA, double[] vectorB)
         {
             checkVectorLength(vectorA, vectorB);
             double dotProduct = computeDotProduct(vectorA, vectorB);
