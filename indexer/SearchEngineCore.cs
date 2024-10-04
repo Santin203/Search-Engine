@@ -4,7 +4,7 @@ namespace Indexer
 {
     public class SearchEngineCore
     {
-        private Dictionary<string, Dictionary<string, double>> _index = new Dictionary<string, Dictionary<string, double>>();
+        private Dictionary<string, Dictionary<string, double>> index = new Dictionary<string, Dictionary<string, double>>();
         private TFIDF vectorizer;
 
         public SearchEngineCore()
@@ -22,7 +22,7 @@ namespace Indexer
             // Read and process all supported files
             foreach (var file in files)
             {
-                Files fileProcessor = null;
+                Files? fileProcessor = null;
 
                 // Check file extension and instantiate the correct file handler
                 string extension = Path.GetExtension(file).ToLower();
@@ -66,8 +66,11 @@ namespace Indexer
             // Store the indexed documents (TF-IDF vectors)
             for (int i = 0; i < filePaths.Count; i++)
             {
-                _index[filePaths[i]] = tfidfMatrix[i];  // Map the file path to its TF-IDF vector
+                index[filePaths[i]] = tfidfMatrix[i];
             }
+
+            // Store the index in a file
+            
 
             Console.WriteLine("Folder indexing complete.");
         }
@@ -75,7 +78,7 @@ namespace Indexer
         private bool IsSupportedFileType(string filePath)
         {
             string extension = Path.GetExtension(filePath).ToLower();
-            return extension == ".txt" || extension == ".csv" || extension == ".json" || extension == ".xml" || extension == ".html";
+            return extension == ".txt" || extension == ".csv" || extension == ".json" || extension == ".xml" || extension == ".html" || extension == ".pdf";
         }
 
         private double[] ToArray(Dictionary<string, double> vector)
@@ -94,7 +97,7 @@ namespace Indexer
             List<(string indexedFilePath, List<int>)> readIndexer = new List<(string, List<int>)>{};  
 
             string jsonData = File.ReadAllText(filePath);
-            readIndexer = JsonConvert.DeserializeObject<List<(string, List<int>)>>(jsonData);
+            readIndexer = JsonConvert.DeserializeObject<List<(string, List<int>)>>(jsonData) ?? new List<(string, List<int>)>();
 
             return readIndexer;
         }
@@ -132,7 +135,7 @@ namespace Indexer
             var cosineSimilarity = new CosineSimilarity();
             var rankedResults = new List<(string, double)>();
 
-            foreach (var docEntry in _index)
+            foreach (var docEntry in index)
             {
                 var docVector = docEntry.Value;
                 var docVectorArray = ToArray(docVector);

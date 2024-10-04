@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.IO;
 using System.Xml;
 using Porter2Stemmer;
+using System.Text.Json;
 
 namespace Indexer
 {
@@ -74,7 +75,7 @@ namespace Indexer
             //File was not found
             catch(FileNotFoundException)
             {
-                Console.WriteLine($"File {filePath} not found in current directory.");
+                Console.WriteLine($"File {filePath} not found.");
             }
             //IO error
             catch (IOException ex)
@@ -246,21 +247,23 @@ namespace Indexer
 
         protected override string GetRawText(string filePath)
         {
-            string fileData = "";
-            // Make new class to store html doc
+            // Load the HTML file
             HtmlDocument htmlDoc = new HtmlDocument();
-
-            // Load file into object
             htmlDoc.Load(filePath);
 
-            // Extract text content from html file
-            fileData = htmlDoc.DocumentNode.InnerText;
+            // Extract the plain text content from the HTML
+            string fileData = htmlDoc.DocumentNode.InnerText;
 
-            // Remove special chars from string and return
-            this.RemoveBadChars(fileData);
-            return fileData;
+            // Remove unwanted special characters from the text
+            string cleanedText = this.RemoveBadChars(fileData);
+
+            // Return the cleaned plain text content
+            return cleanedText;
         }
     }
+
+
+    
 
     public class JsonFiles : Files
     {
@@ -275,16 +278,66 @@ namespace Indexer
 
         protected override string GetRawText(string filePath)
         {
-            string fileData = "";
+            string fileData = File.ReadAllText(filePath);
+            
+            // Parse the JSON and extract the content (values only)
+            Dictionary<string, object> jsonData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(fileData);
+            List<string> values = ExtractValues(jsonData);
+            
+            // Join all the values into a single string
+            string contentOnly = string.Join(" ", values);
 
-            // Read file text directly
-            fileData = File.ReadAllText(filePath);
+            // Remove any unwanted characters and return
+            return this.RemoveBadChars(contentOnly);
+        }
 
-            // Remove special chars from string and return
-            this.RemoveBadChars(fileData);
-            return fileData;
+        private List<string> ExtractValues(Dictionary<string, object> jsonData)
+        {
+            var values = new List<string>();
+
+            foreach (var value in jsonData.Values)
+            {
+                if (value is JsonElement jsonElement)
+                {
+                    switch (jsonElement.ValueKind)
+                    {
+                        case JsonValueKind.Object:
+                            // Recursively extract values from nested objects
+                            var nestedData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonElement.GetRawText());
+                            values.AddRange(ExtractValues(nestedData));
+                            break;
+                        case JsonValueKind.Array:
+                            // Extract values from arrays
+                            foreach (var element in jsonElement.EnumerateArray())
+                            {
+                                if (element.ValueKind == JsonValueKind.String)
+                                {
+                                    values.Add(element.GetString());
+                                }
+                            }
+                            break;
+                        case JsonValueKind.String:
+                            values.Add(jsonElement.GetString());
+                            break;
+                        case JsonValueKind.Number:
+                        case JsonValueKind.True:
+                        case JsonValueKind.False:
+                        case JsonValueKind.Null:
+                            values.Add(jsonElement.ToString());
+                            break;
+                    }
+                }
+                else
+                {
+                    // For non-JsonElement values (if deserialization resulted in other object types)
+                    values.Add(value.ToString());
+                }
+            }
+
+            return values;
         }
     }
+
 
     public class XmlFiles : Files
     {
@@ -301,25 +354,23 @@ namespace Indexer
         {
             string fileData = "";
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("path_to_xml_file.xml");
+            xmlDoc.Load(filePath);
 
             // Access the root element
             XmlElement root = xmlDoc.DocumentElement;
 
-            // Join the name of the root element twice (opening and closing tag) to the empty data string.
-            string.Join(" ", fileData, root.Name, root.Name);
-
             // Iterate over all child nodes of the root element
             foreach (XmlNode node in root.ChildNodes)
             {
-                // Join the name of the element twice (opening and closing tag) and inner text to the collected data.
-                string.Join(" ", fileData, node.Name, node.Name);
-                string.Join(" ", fileData, node.InnerText);
+                // Concatenate only the inner text of each node to the fileData string.
+                fileData = string.Join(" ", fileData, node.InnerText);
             }
 
             return fileData;
         }
     }
+
+
 
     public class CSVFiles : Files
     {
