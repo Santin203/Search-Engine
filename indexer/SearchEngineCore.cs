@@ -5,7 +5,7 @@ namespace Indexer
     public class SearchEngineCore
     {
         private Dictionary<string, Dictionary<string, double>> index = new Dictionary<string, Dictionary<string, double>>();
-        private TFIDF vectorizer;
+        private Indexer vectorizer;
 
         public SearchEngineCore()
         {
@@ -59,11 +59,13 @@ namespace Indexer
                     filePaths.Add(file); // Keep the file path for later reference
                 }
             }
+            //Select vectorizer type before computing
+            SetVectorizer();
 
-            // Compute TF-IDF for all documents
+            // Compute TF-IDF/Bm25 for all documents
             var tfidfMatrix = vectorizer.FitTransform(documents.ToArray());
 
-            // Store the indexed documents (TF-IDF vectors)
+            // Store the indexed documents (vectors)
             for (int i = 0; i < filePaths.Count; i++)
             {
                 index[filePaths[i]] = tfidfMatrix[i];
@@ -73,6 +75,38 @@ namespace Indexer
             
 
             Console.WriteLine("Folder indexing complete.");
+        }
+
+        private void SetVectorizer()
+        {
+            bool askIndexer = true;
+            while(askIndexer)
+            {
+                Console.WriteLine("Please select an indexer type:\n1- TF-IDF\n2- BM25");
+                string command = Console.ReadLine()?.Trim();
+                if (int.TryParse(command, out int commandNumb))
+                {
+                    // Switch based on the result after parsing
+                    switch (commandNumb)
+                    {
+                        case 1:
+                            Console.WriteLine("Indexing using TF-IDF");
+                            break;
+                        case 2:
+                            Console.WriteLine("Indexing using BM25");
+                            vectorizer = new Bm25();
+                            break;
+                        default:
+                            Console.WriteLine("Outside of range given, please try again.");
+                            break;
+                    }
+                }
+                else
+                {
+                    // Handle non-integer input
+                    Console.WriteLine("Your input was not a number!");
+                }
+            }
         }
 
         private bool IsSupportedFileType(string filePath)
