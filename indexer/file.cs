@@ -13,15 +13,11 @@ namespace Indexer
     public abstract class Files
     {
         public string fileData;
-        public int nTerms;
-        public List<(string term, int frequency)> terms; // Change from array to List<T>
 
         //Constructor for Files class, default values included
-        public Files(string data = "", int termNumber = -1, List<(string term, int frequency)>? termsList = null)
+        public Files(string data = "")
         {
             fileData = data;
-            nTerms = termNumber;
-            terms = termsList ?? new List<(string, int)> { ("", -1) };  // Initialize if termsList is null
         }
 
         //Build instance of the Current Class
@@ -36,21 +32,14 @@ namespace Indexer
             if(fileData != null)
             {
                 Console.WriteLine("File data read successfully!");
-                terms = ParseData(fileData);
 
-                //Parsing of fileData successful
-                if(terms[0].term != "")
-                {
-                    Console.WriteLine("File data parsed successfully!");
-                    nTerms = terms.Count; // Change from Length to Count
-                    return true;
-                }
-                //Error in parsing fileData
-                else
-                {
-                    Console.WriteLine("File data could not be parsed.");
-                    return false;
-                }
+                string[] words = fileData.Split(" ");
+                words = StemWords(words);
+                
+                fileData = string.Join(" ", words);
+                Console.WriteLine("Words have been stemmed");
+
+                return true;
             }
             //File not found
             else
@@ -99,64 +88,7 @@ namespace Indexer
             }
             return rawText;
         }
-
-        protected List<(string term, int frequency)> ParseData(string rawData)
-        {
-            // Initialize list to dummy value
-            List<(string term, int frequency)> terms = new List<(string, int)>
-            {
-                ("", -1)
-            };
-
-            // Create tuple for copying and editing values
-            (string term, int frequency) prevTuple;
-
-            // Helper variables
-            int n;
-            bool found;
-
-            // Write code for stemming algorithm here.
-            string[] rawWords = rawData.Split(" ");
-            rawWords = StemmWords(rawWords);
-
-            // Traverse array of stemmed words and count the number of appearances
-            foreach(string word in rawWords)
-            {
-                // If list still hasn't been initialized with real values
-                if(terms.Count == 1 && terms[0].term == "")
-                {
-                    terms[0] = (word, 1);
-                }
-                // Else traverse list and search for current word
-                else
-                {
-                    found = false;
-                    for(int j = 0; j < terms.Count; j++)
-                    {
-                        // If word is inside current tuple, increase frequency
-                        if(terms[j].term == word)
-                        {
-                            prevTuple = terms[j];
-
-                            n = prevTuple.frequency;
-
-                            terms[j] = (prevTuple.term, n + 1);
-                            found = true;
-                            break; // Break after updating to avoid unnecessary iterations
-                        }
-                    }
-                    // Else add to list
-                    if(!found)
-                    {
-                        terms.Add((word, 1));
-                    }
-                }
-            }
-
-            return terms;
-        }
-
-        protected string[] StemmWords(string[] rawStrings)
+        protected string[] StemWords(string[] rawStrings)
         {
             // Make new instance of stemmer
             var stemmer = new EnglishPorter2Stemmer();
@@ -181,8 +113,8 @@ namespace Indexer
         }
 
         // Constructor for TxtFiles that calls the base constructor
-        public TxtFiles(string data, int termNumber, List<(string term, int frequency)> termsList) 
-            : base(data, termNumber, termsList)
+        public TxtFiles(string data) 
+            : base(data)
         {
         }
 
@@ -205,8 +137,8 @@ namespace Indexer
         {
         }
 
-        public PdfFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
-            : base(data, termNumber, termsList)
+        public PdfFiles(string data)
+            : base(data)
         {
         }
 
@@ -240,8 +172,8 @@ namespace Indexer
         {
         }
 
-        public HTMLFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
-            : base(data, termNumber, termsList)
+        public HTMLFiles(string data)
+            : base(data)
         {
         }
 
@@ -270,8 +202,8 @@ namespace Indexer
         {
         }
 
-        public JsonFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
-            : base(data, termNumber, termsList)
+        public JsonFiles(string data)
+            : base(data)
         {
         }
 
@@ -357,8 +289,8 @@ namespace Indexer
         {
         }
 
-        public XmlFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
-            : base(data, termNumber, termsList)
+        public XmlFiles(string data)
+            : base(data)
         {
         }
 
@@ -414,8 +346,8 @@ namespace Indexer
         {
         }
 
-        public CSVFiles(string data, int termNumber, List<(string term, int frequency)> termsList)
-            : base(data, termNumber, termsList)
+        public CSVFiles(string data)
+            : base(data)
         {
         }
 
