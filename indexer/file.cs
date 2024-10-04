@@ -263,7 +263,6 @@ namespace Indexer
     }
 
 
-    
 
     public class JsonFiles : Files
     {
@@ -278,65 +277,78 @@ namespace Indexer
 
         protected override string GetRawText(string filePath)
         {
+            // Read the JSON file
             string fileData = File.ReadAllText(filePath);
-            
-            // Parse the JSON and extract the content (values only)
+
+            // Parse the JSON and extract the content (keys and values)
             Dictionary<string, object> jsonData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(fileData);
-            List<string> values = ExtractValues(jsonData);
-            
-            // Join all the values into a single string
-            string contentOnly = string.Join(" ", values);
+            List<string> keyValues = ExtractKeyValues(jsonData);
+
+            // Join all keys and values into a single string
+            string contentWithKeys = string.Join(" ", keyValues);
 
             // Remove any unwanted characters and return
-            return this.RemoveBadChars(contentOnly);
+            return this.RemoveBadChars(contentWithKeys);
         }
 
-        private List<string> ExtractValues(Dictionary<string, object> jsonData)
+        private List<string> ExtractKeyValues(Dictionary<string, object> jsonData)
         {
-            var values = new List<string>();
+            var keyValues = new List<string>();
 
-            foreach (var value in jsonData.Values)
+            foreach (var entry in jsonData)
             {
-                if (value is JsonElement jsonElement)
+                string key = entry.Key;
+
+                if (entry.Value is JsonElement jsonElement)
                 {
                     switch (jsonElement.ValueKind)
                     {
                         case JsonValueKind.Object:
-                            // Recursively extract values from nested objects
+                            // Recursively extract keys and values from nested objects
                             var nestedData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonElement.GetRawText());
-                            values.AddRange(ExtractValues(nestedData));
+                            keyValues.Add(key);
+                            keyValues.AddRange(ExtractKeyValues(nestedData));
                             break;
                         case JsonValueKind.Array:
-                            // Extract values from arrays
+                            // Extract values from arrays and append the key
+                            keyValues.Add(key);
                             foreach (var element in jsonElement.EnumerateArray())
                             {
                                 if (element.ValueKind == JsonValueKind.String)
                                 {
-                                    values.Add(element.GetString());
+                                    keyValues.Add(element.GetString());
+                                }
+                                else
+                                {
+                                    keyValues.Add(element.ToString());
                                 }
                             }
                             break;
                         case JsonValueKind.String:
-                            values.Add(jsonElement.GetString());
+                            keyValues.Add(key);
+                            keyValues.Add(jsonElement.GetString());
                             break;
                         case JsonValueKind.Number:
                         case JsonValueKind.True:
                         case JsonValueKind.False:
                         case JsonValueKind.Null:
-                            values.Add(jsonElement.ToString());
+                            keyValues.Add(key);
+                            keyValues.Add(jsonElement.ToString());
                             break;
                     }
                 }
                 else
                 {
                     // For non-JsonElement values (if deserialization resulted in other object types)
-                    values.Add(value.ToString());
+                    keyValues.Add(key);
+                    keyValues.Add(entry.Value.ToString());
                 }
             }
 
-            return values;
+            return keyValues;
         }
     }
+
 
 
     public class XmlFiles : Files
@@ -359,16 +371,40 @@ namespace Indexer
             // Access the root element
             XmlElement root = xmlDoc.DocumentElement;
 
-            // Iterate over all child nodes of the root element
-            foreach (XmlNode node in root.ChildNodes)
-            {
-                // Concatenate only the inner text of each node to the fileData string.
-                fileData = string.Join(" ", fileData, node.InnerText);
-            }
+            // Recursively process each node and concatenate tag names and text content
+            fileData = ExtractContent(root);
 
             return fileData;
         }
+
+        private string ExtractContent(XmlNode node)
+        {
+            string result = "";
+
+            // Only process element nodes, avoid things like #text nodes and XML declarations
+            if (node.NodeType == XmlNodeType.Element)
+            {
+                // Add the tag name
+                result += node.Name + " ";
+
+                // If the element has inner text, add it
+                if (!string.IsNullOrWhiteSpace(node.InnerText) && node.ChildNodes.Count == 1 && node.FirstChild is XmlText)
+                {
+                    result += node.InnerText + " ";
+                }
+
+                // Recursively process child nodes
+                foreach (XmlNode childNode in node.ChildNodes)
+                {
+                    result += ExtractContent(childNode);
+                }
+            }
+
+            return result;
+        }
     }
+
+
 
 
 
