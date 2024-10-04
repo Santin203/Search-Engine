@@ -27,24 +27,12 @@ namespace Indexer
             }
         }
 
-        private void ComputeIdf()
+        protected override void ComputeIdf()
         {
             int docCount = Documents.Length;
-            var docFrequency = new Dictionary<string, int>();
-
-            foreach (var doc in Documents)
-            {
-                var tokens = Tokenize(doc).Distinct();
-                foreach (var token in tokens)
-                {
-                    if (!docFrequency.ContainsKey(token))
-                    {
-                        docFrequency[token] = 0;
-                    }
-                    docFrequency[token]++;
-                }
-            }
-
+            var docFrequency = ComputeDocFrequency();
+            
+            //Compute IDF
             foreach (var token in Vocabulary.Keys)
             {
                 double idfValue = Math.Log((double)(docCount + (_smoothIdf ? 1 : 0)) / 
