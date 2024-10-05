@@ -40,3 +40,30 @@ C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\HtmlAgilityPa
 C:\Users\Casas\repos\csharp-Search-Engine\indexer\bin\Debug\net7.0\Porter2Stemmer.dll
 C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.sourcelink.json
 C:\Users\Casas\repos\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.Up2Date
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.exe
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.deps.json
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.runtimeconfig.json
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\indexer.pdb
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\HtmlAgilityPack.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Core.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.DocumentLayoutAnalysis.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Fonts.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Package.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Tokenization.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.Tokens.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\UglyToad.PdfPig.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\bin\Debug\net7.0\Porter2Stemmer.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.AssemblyReference.cache
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.AssemblyInfoInputs.cache
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.AssemblyInfo.cs
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.CoreCompileInputs.cache
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.sourcelink.json
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.csproj.Up2Date
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\refint\indexer.dll
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.pdb
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\indexer.genruntimeconfig.cache
+C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\obj\Debug\net7.0\ref\indexer.dll

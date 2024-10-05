@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = indexer
-build_property.ProjectDir = C:\Users\Casas\repos\csharp-Search-Engine\indexer\
+build_property.ProjectDir = C:\Users\jgabr\Documents\Code\C#\CS2365\Project #1\csharp-Search-Engine\indexer\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
