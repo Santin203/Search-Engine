@@ -5,17 +5,6 @@ namespace Indexer
 {
     public class CosineSimilarity : SearchEngine
     {
-        private double _similarityMeasure;
-
-        private void checkVectorLength(double[] vectorA, double[] vectorB)
-        {
-            if (vectorA.Length != vectorB.Length)
-            {
-                Console.WriteLine("Error: Vector lengths do not match.");
-            }
-
-        }
-
         private double computeMagnitude(double[] vector)
         {
             double magnitude = 0;
