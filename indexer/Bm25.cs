@@ -6,19 +6,20 @@ namespace Indexer
 {
     public class Bm25: Indexer
     {
-        double k = 1.5;
-        double b = 0.75;
-        double averageDocumentLength;
-        int docCount;
+        double _k = 1.5;
+        double _b = 0.75;
+        double _averageDocumentLength;
+        int _docCount;
         public Dictionary<string, double> Idf { get; private set; }
         public Bm25()
         {
             Idf = new Dictionary<string, double>();
-            averageDocumentLength = 0;
+            _averageDocumentLength = 0;
         }
         public override void Fit(string[] documents)
         {
             Documents = documents;
+            GetAverageDocumentLength();
             BuildVocabulary(documents);
 
             ComputeIdf();
@@ -39,34 +40,61 @@ namespace Indexer
             //Sum all lengths into averageDocumentLength
             foreach(int length in lengths)
             {
-                averageDocumentLength += length;
+                _averageDocumentLength += length;
             }
 
             //Take average
-            averageDocumentLength = averageDocumentLength/lengths.Count;
+            _averageDocumentLength = _averageDocumentLength/lengths.Count;
             
         }
 
         protected override void ComputeIdf()
         {
-            docCount = Documents.Length;
+            _docCount = Documents.Length;
             var docFrequency = ComputeDocFrequency();
 
             foreach (var term in docFrequency.Keys)
             {
-                double idfValue = Math.Log(1 + (docCount - docFrequency[term] + 0.5) / (docFrequency[term] + 0.5));
+                double idfValue = Math.Log(1 + (_docCount - docFrequency[term] + 0.5) / (docFrequency[term] + 0.5));
                 Idf[term] = idfValue;
             }
         }
 
-        public override List<Dictionary<string, double>> Transform(string[] documents)
+        protected override Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency)
         {
-            throw new NotImplementedException();
-        }
+            //Make new bm25 vector
+            var bm25 = new Dictionary<string, double>();
 
-        public override List<Dictionary<string, double>> FitTransform(string[] documents)
-        {
-            throw new NotImplementedException();
+            double docLength = 0;
+
+            foreach(var term in termFrequency.Keys)
+            {
+                docLength += termFrequency[term];
+            }
+
+            //Iterate through list of terms and calculate their tfidf
+            foreach (var term in termFrequency.Keys)
+            {
+                if (Vocabulary.ContainsKey(term))
+                {
+                    double tf = termFrequency[term];
+                    if (Idf.ContainsKey(term))
+                    {
+                        double idf = Idf[term];
+
+                        // BM25 formula
+                        double numerator = tf * (_k + 1);
+                        double denominator = tf + _k * (1 - _b + _b * (docLength / _averageDocumentLength));
+                        double bm25Value = idf * (numerator / denominator);
+
+                        //Store BM25 score into dictionary
+                        bm25[term] = bm25Value;
+                    }
+                }
+            }
+
+            //Return vector component
+            return bm25;
         }
     }
 }

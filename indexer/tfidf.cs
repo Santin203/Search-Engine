@@ -41,39 +41,28 @@ namespace Indexer
             }
         }
 
-        public override List<Dictionary<string, double>> Transform(string[] documents)
+        protected override Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency)
         {
-            var tfidfVectors = new List<Dictionary<string, double>>();
+            //Make new tfidf vector 
+            var tfidf = new Dictionary<string, double>();
 
-            foreach (var doc in documents)
+            //Iterate through list of terms and calculate their tfidf
+            foreach (var term in termFrequency.Keys)
             {
-                var tfidf = new Dictionary<string, double>();
-                var tokens = Tokenize(doc);
-                var termFrequency = tokens.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / tokens.Count);
-
-                foreach (var term in termFrequency.Keys)
+                if (Vocabulary.ContainsKey(term))
                 {
-                    if (Vocabulary.ContainsKey(term))
+                    double tfidfValue = termFrequency[term];
+                    if (_useIdf && Idf.ContainsKey(term))
                     {
-                        double tfidfValue = termFrequency[term];
-                        if (_useIdf && Idf.ContainsKey(term))
-                        {
-                            tfidfValue *= Idf[term];
-                        }
-                        tfidf[term] = tfidfValue;
+                        tfidfValue *= Idf[term];
                     }
+                    //Store tfidf score into dictionary
+                    tfidf[term] = tfidfValue;
                 }
-
-                tfidfVectors.Add(tfidf);
             }
 
-            return tfidfVectors;
-        }
-
-        public override List<Dictionary<string, double>> FitTransform(string[] documents)
-        {
-            Fit(documents);
-            return Transform(documents);
+            //Return vector component
+            return tfidf;
         }
     }
 }

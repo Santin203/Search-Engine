@@ -23,7 +23,7 @@ namespace Indexer
             string fileData = htmlDoc.DocumentNode.InnerText;
 
             // Remove unwanted special characters from the text
-            string cleanedText = this.RemoveBadChars(fileData);
+            string cleanedText = RemoveBadChars(fileData);
 
             // Return the cleaned plain text content
             return cleanedText;

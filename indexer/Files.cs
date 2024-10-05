@@ -23,11 +23,12 @@ namespace Indexer
             Console.WriteLine("File build has started.");
 
             //Read data from file
-            this.fileData = this.GetFileData(filePath);
+            fileData = GetFileData(filePath);
 
             //File found, raw data stored
-            if(fileData != null)
+            if(!string.IsNullOrEmpty(fileData))
             {
+                fileData = fileData.ToLower();
                 Console.WriteLine("File data read successfully!");
 
                 string[] words = fileData.Split(" ");
@@ -78,11 +79,15 @@ namespace Indexer
         {
             string[] specialChars = { "@", "#", "!", "$", ",", ".", ";", "(", ")", "[", "]", "{", "}", "\"", "'", "\r", "\n" };
 
-            // Replace each special character with an empty string
+            // Replace each special character with an empty space
             foreach (string specialChar in specialChars)
             {
                 rawText = rawText.Replace(specialChar, " ");
             }
+
+            // Normalize spaces 
+            rawText = System.Text.RegularExpressions.Regex.Replace(rawText, @"\s+", " ").Trim();
+            
             return rawText;
         }
         protected string[] StemWords(string[] rawStrings)

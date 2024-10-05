@@ -32,7 +32,7 @@ namespace Indexer
             }
 
             // Remove special chars from string and return
-            this.RemoveBadChars(fileData);
+            fileData = RemoveBadChars(fileData);
             return fileData;
         }
     }
