@@ -26,7 +26,7 @@ namespace Indexer
             this.fileData = this.GetFileData(filePath);
 
             //File found, raw data stored
-            if(fileData != null)
+            if(!string.IsNullOrEmpty(fileData))
             {
                 Console.WriteLine("File data read successfully!");
 
@@ -78,7 +78,7 @@ namespace Indexer
         {
             string[] specialChars = { "@", "#", "!", "$", ",", ".", ";", "(", ")", "[", "]", "{", "}", "\"", "'", "\r", "\n" };
 
-            // Replace each special character with an empty string
+            // Replace each special character with an empty space
             foreach (string specialChar in specialChars)
             {
                 rawText = rawText.Replace(specialChar, " ");
