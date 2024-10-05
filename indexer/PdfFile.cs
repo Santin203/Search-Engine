@@ -15,7 +15,11 @@ namespace Indexer
 
         protected override string GetRawText(string filePath)
         {
-            string pageData;
+            // Check if the file exists before proceeding
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"The file '{filePath}' was not found.");
+            }
 
             string fileData = "";
             using (var pdf = PdfDocument.Open(filePath))
@@ -23,11 +27,8 @@ namespace Indexer
                 // Iterate through pages
                 foreach (var page in pdf.GetPages())
                 {
-                    // Raw text of the page's content stream.
-                    pageData = page.Text;
-
                     // Concatenate with previous data collected
-                    fileData = string.Join(" ", fileData, pageData);
+                    fileData = string.Join(" ", fileData, page.Text);
                 }
             }
 

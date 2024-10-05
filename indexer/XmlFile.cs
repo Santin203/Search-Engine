@@ -25,6 +25,8 @@ namespace Indexer
             // Recursively process each node and concatenate tag names and text content
             fileData = ExtractContent(root);
 
+            fileData = RemoveBadChars(fileData);
+
             return fileData;
         }
 

@@ -16,7 +16,7 @@ namespace Indexer
             string fileData;
 
             fileData = File.ReadAllText(filePath);
-            fileData = this.RemoveBadChars(fileData);
+            fileData = RemoveBadChars(fileData);
 
             return fileData;
         }

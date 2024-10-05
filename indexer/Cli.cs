@@ -146,7 +146,7 @@ namespace Indexer
             while(askDistance)
             {
                 //Ask for distance type
-                Console.WriteLine("Please select a distance type:\n1- Cosine\n2- Euclidean");
+                Console.WriteLine("Please select a distance type:\n1- Cosine\n2- Searchito");
                 string command = Console.ReadLine()?.Trim();
 
                 //Select type and change distance if needed
