@@ -36,7 +36,7 @@ namespace Indexer
             .Select((file, i) => new { Key = file, Value = vectorMatrix[i] })
             .ToDictionary(x => x.Key, x => x.Value);
 
-            StoreIndex(indexData);
+            FileHandler.StoreIndex(indexData);
         }
 
         private double[] ToArray(Dictionary<string, double> vector)
@@ -59,24 +59,6 @@ namespace Indexer
             vectorizer.Vocabulary = index.Values.SelectMany(v => v.Keys).Distinct().Select((term, i) => (term, i)).ToDictionary(p => p.term, p => p.i);
 
             Console.WriteLine("Index loaded successfully from " + filePath);
-        }
-
-        public static string StoreIndex(Dictionary<string, Dictionary<string, double>> indexData)
-        {
-            //Create a random number generator
-            Random idGenerator = new Random();
-            int id = idGenerator.Next(1000);
-
-            //Save file in current directory
-            string filePath  = Directory.GetCurrentDirectory() + "/Indexer" + id.ToString() + ".json";
-
-            //Serialize data into a Json file
-            string jsonSerialization = JsonConvert.SerializeObject(indexData, Formatting.Indented);
-            
-            //Write file
-            File.WriteAllText(filePath, jsonSerialization);
-            Console.WriteLine($"File written to {filePath}");
-            return filePath;
         }
 
         public List<string> Search(string query, int k)
