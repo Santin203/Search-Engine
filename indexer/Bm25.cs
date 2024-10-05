@@ -96,10 +96,5 @@ namespace Indexer
             //Return vector component
             return bm25;
         }
-
-        public override List<Dictionary<string, double>> FitTransform(string[] documents)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -76,10 +76,15 @@ namespace Indexer
             return docFrequency;
         }
 
+        public  List<Dictionary<string, double>> FitTransform(string[] documents)
+        {
+            Fit(documents);
+            return Transform(documents);
+        }
+
         // Abstract methods to be implemented by child classes
         public abstract void Fit(string[] documents);
         protected abstract void ComputeIdf();
         protected abstract Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency);
-        public abstract List<Dictionary<string, double>> FitTransform(string[] documents);
     }
 }

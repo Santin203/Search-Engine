@@ -64,11 +64,5 @@ namespace Indexer
             //Return vector component
             return tfidf;
         }
-
-        public override List<Dictionary<string, double>> FitTransform(string[] documents)
-        {
-            Fit(documents);
-            return Transform(documents);
-        }
     }
 }
