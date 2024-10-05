@@ -1662,23 +1662,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jgabr\\.nuget\\packages\\": {},
+    "C:\\Users\\Casas\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\indexer\\indexer.csproj",
+      "projectUniqueName": "C:\\Users\\Casas\\repos\\csharp-Search-Engine\\indexer\\indexer.csproj",
       "projectName": "indexer",
-      "projectPath": "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\indexer\\indexer.csproj",
-      "packagesPath": "C:\\Users\\jgabr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\indexer\\obj\\",
+      "projectPath": "C:\\Users\\Casas\\repos\\csharp-Search-Engine\\indexer\\indexer.csproj",
+      "packagesPath": "C:\\Users\\Casas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Casas\\repos\\csharp-Search-Engine\\indexer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\jgabr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Casas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1687,7 +1687,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "c:\\program files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1757,30 +1757,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.20, 7.0.20]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.20, 7.0.20]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.20, 7.0.20]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.20, 7.0.20]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
