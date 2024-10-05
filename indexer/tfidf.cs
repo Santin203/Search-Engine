@@ -41,16 +41,10 @@ namespace Indexer
             }
         }
 
-        public Dictionary<string, double> ComputeVector(string doc)
+        protected override Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency)
         {
-            //Make new tfidf vector
+            //Make new tfidf vector 
             var tfidf = new Dictionary<string, double>();
-
-            //Tokenize document (separate words)
-            var tokens = Tokenize(doc);
-
-            //Calculate words' term frequency
-            var termFrequency = tokens.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / tokens.Count);
 
             //Iterate through list of terms and calculate their tfidf
             foreach (var term in termFrequency.Keys)
@@ -66,6 +60,9 @@ namespace Indexer
                     tfidf[term] = tfidfValue;
                 }
             }
+
+            //Return vector component
+            return tfidf;
         }
 
         public override List<Dictionary<string, double>> FitTransform(string[] documents)
