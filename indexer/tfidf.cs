@@ -41,33 +41,31 @@ namespace Indexer
             }
         }
 
-        public override List<Dictionary<string, double>> Transform(string[] documents)
+        public Dictionary<string, double> ComputeVector(string doc)
         {
-            var tfidfVectors = new List<Dictionary<string, double>>();
+            //Make new tfidf vector
+            var tfidf = new Dictionary<string, double>();
 
-            foreach (var doc in documents)
+            //Tokenize document (separate words)
+            var tokens = Tokenize(doc);
+
+            //Calculate words' term frequency
+            var termFrequency = tokens.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / tokens.Count);
+
+            //Iterate through list of terms and calculate their tfidf
+            foreach (var term in termFrequency.Keys)
             {
-                var tfidf = new Dictionary<string, double>();
-                var tokens = Tokenize(doc);
-                var termFrequency = tokens.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / tokens.Count);
-
-                foreach (var term in termFrequency.Keys)
+                if (Vocabulary.ContainsKey(term))
                 {
-                    if (Vocabulary.ContainsKey(term))
+                    double tfidfValue = termFrequency[term];
+                    if (_useIdf && Idf.ContainsKey(term))
                     {
-                        double tfidfValue = termFrequency[term];
-                        if (_useIdf && Idf.ContainsKey(term))
-                        {
-                            tfidfValue *= Idf[term];
-                        }
-                        tfidf[term] = tfidfValue;
+                        tfidfValue *= Idf[term];
                     }
+                    //Store tfidf score into dictionary
+                    tfidf[term] = tfidfValue;
                 }
-
-                tfidfVectors.Add(tfidf);
             }
-
-            return tfidfVectors;
         }
 
         public override List<Dictionary<string, double>> FitTransform(string[] documents)

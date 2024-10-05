@@ -38,6 +38,19 @@ namespace Indexer
             }
         }
 
+        public List<Dictionary<string, double>> Transform(string[] documents)
+        {
+            var tfidfVectors = new List<Dictionary<string, double>>();
+
+            foreach (var doc in documents)
+            {
+                //Compute vector for 
+                tfidfVectors.Add(ComputeVector(doc));
+            }
+
+            return tfidfVectors;
+        }
+
         protected Dictionary<string, int> ComputeDocFrequency()
         {
             var docFrequency = new Dictionary<string, int>();
