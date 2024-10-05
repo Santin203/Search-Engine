@@ -6,7 +6,7 @@ namespace Indexer
     public abstract class Indexer
     {
         // Vocabulary and documents are common across all indexers
-        public Dictionary<string, int> Vocabulary { get; protected set; }
+        public Dictionary<string, int> Vocabulary { get; set; }
         protected string[] Documents;
 
         protected Indexer()
