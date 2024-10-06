@@ -8,11 +8,18 @@ namespace Indexer
         //Convert vector component to points in a function, compute correlation of both sets of points
         public override double ComputeSimilarity(double[] vectorA, double[] vectorB)
         {
-            checkVectorLength(vectorA, vectorB);
-            //Represent vectors as points in a linear function, a = 2, vector[index] = x
-            //Function of the form f(x) = ax + b, b = 0
-            double[] functionA = GetFunction(vectorA, vectorA.Length);
-            double[] functionB = GetFunction(vectorB, vectorB.Length);
+            bool isSameLength = checkVectorLength(vectorA, vectorB);
+
+            if(isSameLength)
+            {
+                //Represent vectors as points in a linear function, a = 10, vector[index] = x
+                //Function of the form f(x) = ax + b, b = 0
+                double[] functionA = GetFunction(vectorA, vectorA.Length);
+                double[] functionB = GetFunction(vectorB, vectorB.Length);
+
+                //Calculate correlation between both sets of points
+                CalculatePearsonCorrelation(functionA,functionB);
+            }
             return _similarityMeasure;
         }
 
@@ -53,10 +60,19 @@ namespace Indexer
             if (denominator == 0)   
             {
                 _similarityMeasure = 0; //Handle division by 0
+                return;
             } 
+
+            // Additional check to prevent NaN
+            if (double.IsNaN(numerator) || double.IsNaN(denominator))
+            {
+                _similarityMeasure = 0;
+                return;
+            }
 
             //Compute correlation
             _similarityMeasure = numerator / denominator;
+            return;
         }
     }
 }

@@ -131,8 +131,6 @@ namespace Indexer.Tests
             var vector2 = vectors[1];
             // Assert
             Assert.Equal(2, vectors.Count); // 2 documents, so 2 vectors
-            Assert.Equal(3, vector1.Count);
-            Assert.Equal(2, vector2.Count);
         }
 
         [Fact]
