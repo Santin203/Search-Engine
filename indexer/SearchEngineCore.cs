@@ -15,6 +15,38 @@ namespace Indexer
             this.distance = distance;
         }
 
+        public void SetVectorizer(int vectorizerType)
+        {
+            switch(vectorizerType)
+            {
+                case 1:
+                    vectorizer = new TFIDF();
+                    break;
+                case 2:
+                    vectorizer = new Bm25();
+                    break;
+                default:
+                    vectorizer = new TFIDF();
+                    break;
+            }
+        }
+
+        public void SetDistance(int distanceType)
+        {
+            switch(distanceType)
+            {
+                case 1:
+                    distance = new CosineSimilarity();
+                    break;
+                case 2:
+                    distance = new Searchito();
+                    break;
+                default:
+                    distance = new CosineSimilarity();
+                    break;
+            }
+        }
+
         public void IndexFolder(string folderPath)
         {
             var fileProcessor = new FileHandler();

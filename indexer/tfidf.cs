@@ -41,10 +41,13 @@ namespace Indexer
             }
         }
 
-        protected override Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency)
+        protected override Dictionary<string, double> ComputeVector(List<string> words)
         {
             //Make new tfidf vector 
             var tfidf = new Dictionary<string, double>();
+
+            //Calculate words' normalized term frequency
+            var termFrequency = words.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / words.Count);
 
             //Iterate through list of terms and calculate their tfidf
             foreach (var term in termFrequency.Keys)
