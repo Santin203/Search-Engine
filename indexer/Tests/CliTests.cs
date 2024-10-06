@@ -30,6 +30,7 @@ namespace Indexer.Tests
             cli.Run();
 
             // Assert
+            Assert.Contains("\nPlease enter a command (index, search, load, or exit):", _output.ToString());
             Assert.Contains("Indexing completed.", _output.ToString());
         }
 
