@@ -39,7 +39,7 @@ namespace Indexer.Tests
             double[] vectorB = { 1.0, 2.0, 3.0 };
 
             // Act
-            double result = _cosineSimilarity.ComputeSimilarity(vectorA, vectorB);
+            double result = _cosineSimilarity.ComputeSimilarity(vectorA, vectorB);  //Division by 0
 
             // Assert
             Assert.Equal(double.NaN, result);

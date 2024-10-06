@@ -27,11 +27,15 @@ namespace Indexer
 
         public override double ComputeSimilarity(double[] vectorA, double[] vectorB)
         {
-            checkVectorLength(vectorA, vectorB);
-            double dotProduct = computeDotProduct(vectorA, vectorB);
-            double magnitudeA = computeMagnitude(vectorA);
-            double magnitudeB = computeMagnitude(vectorB);
-            _similarityMeasure = dotProduct / (magnitudeA * magnitudeB);
+            bool isSameLength = checkVectorLength(vectorA, vectorB);
+
+            if(isSameLength)
+            {
+                double dotProduct = computeDotProduct(vectorA, vectorB);
+                double magnitudeA = computeMagnitude(vectorA);
+                double magnitudeB = computeMagnitude(vectorB);
+                _similarityMeasure = dotProduct / (magnitudeA * magnitudeB);
+            }
             return _similarityMeasure;
         }
 

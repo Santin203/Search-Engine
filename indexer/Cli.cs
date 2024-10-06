@@ -127,10 +127,12 @@ namespace Indexer
                 {
                     case "1":
                         Console.WriteLine("Indexing using TF-IDF");
+                        searchEngine.SetVectorizer(int.Parse(command));
                         askIndexer = false;
                         break;
                     case "2":
                         Console.WriteLine("Indexing using BM25");
+                        searchEngine.SetVectorizer(int.Parse(command));
                         askIndexer = false;
                         break;
                     default:
@@ -154,10 +156,12 @@ namespace Indexer
                 {
                     case "1":
                         Console.WriteLine("Using Cosine Similarity");
+                        searchEngine.SetDistance(int.Parse(command));
                         askDistance = false;
                         break;
                     case "2":
                         Console.WriteLine("Using Searchito");
+                        searchEngine.SetDistance(int.Parse(command));
                         askDistance = false;
                         break;
                     default:

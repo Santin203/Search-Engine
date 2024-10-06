@@ -40,21 +40,18 @@ namespace Indexer
 
         public List<Dictionary<string, double>> Transform(string[] documents)
         {
-            var tfidfVectors = new List<Dictionary<string, double>>();
+            var Vectors = new List<Dictionary<string, double>>();
 
             foreach (var doc in documents)
             {
                 //Tokenize document (separate words)
                 var tokens = Tokenize(doc);
 
-                //Calculate words' term frequency
-                var termFrequency = tokens.GroupBy(x => x).ToDictionary(g => g.Key, g => (double)g.Count() / tokens.Count);
-
-                //Compute vector for 
-                tfidfVectors.Add(ComputeVector(termFrequency));
+                //Compute vector for doc
+                Vectors.Add(ComputeVector(tokens));
             }
 
-            return tfidfVectors;
+            return Vectors;
         }
 
         protected Dictionary<string, int> ComputeDocFrequency()
@@ -85,6 +82,6 @@ namespace Indexer
         // Abstract methods to be implemented by child classes
         public abstract void Fit(string[] documents);
         protected abstract void ComputeIdf();
-        protected abstract Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency);
+        protected abstract Dictionary<string, double> ComputeVector(List<string> words);
     }
 }
