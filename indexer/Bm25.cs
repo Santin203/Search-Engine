@@ -19,13 +19,24 @@ namespace Indexer
         public override void Fit(string[] documents)
         {
             Documents = documents;
-            GetAverageDocumentLength();
-            BuildVocabulary(documents);
-
-            ComputeIdf();
+            if(Documents.Length == 0)
+            {
+                _averageDocumentLength = 0;
+            }
+            else
+            {
+                SetAverageDocumentLength();
+                BuildVocabulary(documents);
+                ComputeIdf();
+            }
         }
 
-        protected void GetAverageDocumentLength()
+        public double GetAverageDocumentLength()
+        {
+            return _averageDocumentLength;
+        }
+
+        protected void SetAverageDocumentLength()
         {
             List<int> lengths = new List<int>{};
             List<string> words = new List<string>{};
@@ -60,19 +71,22 @@ namespace Indexer
             }
         }
 
-        protected override Dictionary<string, double> ComputeVector(Dictionary<string, double> termFrequency)
+        protected override Dictionary<string, double> ComputeVector(List<string> words)
         {
             //Make new bm25 vector
             var bm25 = new Dictionary<string, double>();
 
+            //Calculate raw term frequency
+            var termFrequency = CalculateTermFrequency(words);
+            
             double docLength = 0;
 
             foreach(var term in termFrequency.Keys)
             {
                 docLength += termFrequency[term];
             }
-
-            //Iterate through list of terms and calculate their tfidf
+            
+            //Iterate through list of terms and calculate their bm25
             foreach (var term in termFrequency.Keys)
             {
                 if (Vocabulary.ContainsKey(term))
@@ -95,6 +109,28 @@ namespace Indexer
 
             //Return vector component
             return bm25;
+        }
+        protected Dictionary<string, int> CalculateTermFrequency(List<string> words)
+        {
+            // Create a dictionary to store the term frequencies
+            Dictionary<string, int> termFrequency = new Dictionary<string, int>();
+
+            foreach (var word in words)
+            {
+
+                // Check if the word is already in the dictionary
+                if (termFrequency.ContainsKey(word))
+                {
+                    // Increment the frequency
+                    termFrequency[word]++;
+                }
+                else
+                {
+                    // Add the word with a frequency of 1
+                    termFrequency[word] = 1;
+                }
+            }
+            return termFrequency;
         }
     }
 }
