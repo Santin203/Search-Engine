@@ -4,7 +4,7 @@ namespace Indexer
 {
     public class SearchEngineCore
     {
-        private Dictionary<string, Dictionary<string, double>> index = new Dictionary<string, Dictionary<string, double>>();
+        public Dictionary<string, Dictionary<string, double>> index { get; private set; } = new Dictionary<string, Dictionary<string, double>>();
         private Indexer vectorizer;
 
         private SearchEngine distance;
