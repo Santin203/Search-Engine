@@ -23,7 +23,7 @@ namespace Indexer.Tests
 
             // Assert
             Assert.NotNull(similarity); // Ensure the similarity value is calculated
-            Assert.Equal(1.0, _similarityMeasure, 5); // Expect perfect correlation for identical vectors
+            Assert.Equal(1.0, similarityMeasure, 5); // Expect perfect correlation for identical vectors
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace Indexer.Tests
             CalculatePearsonCorrelation(functionA, functionB);
 
             // Assert
-            Assert.Equal(1.0, _similarityMeasure, 5); // Expect perfect correlation
+            Assert.Equal(1.0, similarityMeasure, 5); // Expect perfect correlation
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Indexer.Tests
             CalculatePearsonCorrelation(functionA, functionB);
 
             // Assert
-            Assert.Equal(0, _similarityMeasure); // Expect correlation to be zero due to division by zero
+            Assert.Equal(0, similarityMeasure); // Expect correlation to be zero due to division by zero
         }
 
         [Fact]

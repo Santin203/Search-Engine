@@ -9,11 +9,6 @@ namespace Indexer
         {
         }
 
-        public JsonFile(string data)
-            : base(data)
-        {
-        }
-
         protected override string GetRawText(string filePath)
         {
             // Read the JSON file

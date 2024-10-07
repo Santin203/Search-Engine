@@ -126,7 +126,7 @@ namespace Indexer.Tests
             string[] documents = { "run walk jog", "walk run run" };
 
             // Act
-            var vectors = Transform(documents);
+            var vectors = TransformToVector(documents);
             var vector1 = vectors[0];
             var vector2 = vectors[1];
             // Assert

@@ -7,12 +7,6 @@ namespace Indexer
         {
         }
 
-        // Constructor for TxtFiles that calls the base constructor
-        public TxtFile(string data) 
-            : base(data)
-        {
-        }
-
         protected override string GetRawText(string filePath)
         {
             string fileData;

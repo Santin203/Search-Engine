@@ -1,7 +1,3 @@
-using System;
-using System.Dynamic;
-using System.IO;
-
 using Porter2Stemmer;
 
 
@@ -11,17 +7,13 @@ namespace Indexer
     {
         public string fileData;
 
-        //Constructor for Files class, default values included
         public Files(string data = "")
         {
             fileData = data;
         }
 
-        //Build instance of the Current Class
         public bool ExtractContent(string filePath)
         {
-            Console.WriteLine("File build has started.");
-
             //Read data from file
             fileData = GetFileData(filePath);
 
@@ -29,30 +21,25 @@ namespace Indexer
             if(!string.IsNullOrEmpty(fileData))
             {
                 fileData = fileData.ToLower();
-                Console.WriteLine("File data read successfully!");
 
                 string[] words = fileData.Split(" ");
                 words = StemWords(words);
                 
                 fileData = string.Join(" ", words);
-                Console.WriteLine("Words have been stemmed");
 
                 return true;
             }
             //File not found
             else
             {
-                Console.WriteLine("File data could not be read.");
                 return false;
             }
         }
 
-        //Get file name from user, return data
         protected string GetFileData(string filePath)
         {
 
             string fileData = string.Empty;
-
 
             //Try to read file
             try

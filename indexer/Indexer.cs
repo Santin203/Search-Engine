@@ -5,7 +5,7 @@ namespace Indexer
 {
     public abstract class Indexer
     {
-        // Vocabulary and documents are common across all indexers
+
         public Dictionary<string, int> Vocabulary { get; set; }
         protected string[] Documents;
 
@@ -15,13 +15,14 @@ namespace Indexer
             Documents = Array.Empty<string>();
         }
 
-        // Common methods for all vectorizers (tokenization and vocabulary building)
+        // Tokenize document and remove stop words
         protected List<string> Tokenize(string doc)
         {
             var tokens = doc.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             return tokens.Where(token => !StopWords.stopWordsList.Contains(token)).ToList(); // Stop word filtering
         }
 
+        // Build vocabulary from documents
         protected void BuildVocabulary(string[] documents)
         {
             int index = 0;
@@ -38,13 +39,14 @@ namespace Indexer
             }
         }
 
-        public List<Dictionary<string, double>> Transform(string[] documents)
+        // Transform documents into vectors
+        public List<Dictionary<string, double>> TransformToVector(string[] documents)
         {
             var Vectors = new List<Dictionary<string, double>>();
 
             foreach (var doc in documents)
             {
-                //Tokenize document (separate words)
+                //Tokenize document
                 var tokens = Tokenize(doc);
 
                 //Compute vector for doc
@@ -73,10 +75,11 @@ namespace Indexer
             return docFrequency;
         }
 
+        // Fit and transform documents into vectors
         public  List<Dictionary<string, double>> FitTransform(string[] documents)
         {
             Fit(documents);
-            return Transform(documents);
+            return TransformToVector(documents);
         }
 
         // Abstract methods to be implemented by child classes

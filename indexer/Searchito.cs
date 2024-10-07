@@ -20,7 +20,7 @@ namespace Indexer
                 //Calculate correlation between both sets of points
                 CalculatePearsonCorrelation(functionA,functionB);
             }
-            return _similarityMeasure;
+            return similarityMeasure;
         }
 
         //Get function points
@@ -59,19 +59,19 @@ namespace Indexer
 
             if (denominator == 0)   
             {
-                _similarityMeasure = 0; //Handle division by 0
+                similarityMeasure = 0; //Handle division by 0
                 return;
             } 
 
             // Additional check to prevent NaN
             if (double.IsNaN(numerator) || double.IsNaN(denominator))
             {
-                _similarityMeasure = 0;
+                similarityMeasure = 0;
                 return;
             }
 
             //Compute correlation
-            _similarityMeasure = numerator / denominator;
+            similarityMeasure = numerator / denominator;
             return;
         }
     }

@@ -6,11 +6,6 @@ namespace Indexer
         {
         }
 
-        public CSVFile(string data)
-            : base(data)
-        {
-        }
-
         protected override string GetRawText(string filePath)
         {
             string fileData;

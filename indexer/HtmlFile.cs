@@ -8,11 +8,6 @@ namespace Indexer
         {
         }
 
-        public HTMLFile(string data)
-            : base(data)
-        {
-        }
-
         protected override string GetRawText(string filePath)
         {
             // Load the HTML file

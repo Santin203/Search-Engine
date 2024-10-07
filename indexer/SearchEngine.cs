@@ -4,7 +4,7 @@ namespace Indexer
 {
     public abstract class SearchEngine
     {
-        protected double _similarityMeasure;
+        protected double similarityMeasure;
 
         protected bool checkVectorLength(double[] vectorA, double[] vectorB)
         {

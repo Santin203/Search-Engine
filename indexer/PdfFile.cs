@@ -8,11 +8,6 @@ namespace Indexer
         {
         }
 
-        public PdfFile(string data)
-            : base(data)
-        {
-        }
-
         protected override string GetRawText(string filePath)
         {
             // Check if the file exists before proceeding

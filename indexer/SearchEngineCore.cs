@@ -47,30 +47,35 @@ namespace Indexer
             }
         }
 
+        // Index a folder of documents
         public void IndexFolder(string folderPath)
         {
             var fileProcessor = new FileHandler();
             var files = fileProcessor.GetFilesFromFolder(folderPath);
             var documents = new List<string>();
 
+            // Read the content of each file and add it to the documents list
             foreach (var file in files)
             {
-            var content = fileProcessor.ReadFileContent(file);
-            if (!string.IsNullOrEmpty(content))
-            {
-                documents.Add(content);
-            }
+                var content = fileProcessor.ReadFileContent(file);
+                if (!string.IsNullOrEmpty(content))
+                {
+                    documents.Add(content);
+                }
             }
 
+            // Fit the vectorizer to the documents
             var vectorMatrix = vectorizer.FitTransform(documents.ToArray());
 
+            // Store the index data
             var indexData = files
             .Select((file, i) => new { Key = file, Value = vectorMatrix[i] })
             .ToDictionary(x => x.Key, x => x.Value);
 
-            FileHandler.StoreIndex(indexData);
+            FileHandler.StoreIndex(indexData, vectorizer);
         }
-
+        
+        // Convert a dictionary to an array
         private double[] ToArray(Dictionary<string, double> vector)
         {
             var array = new double[vectorizer.Vocabulary.Count];
@@ -81,6 +86,7 @@ namespace Indexer
             return array;
         }
 
+        // Load the index from a file
         public void LoadIndex(string filePath)
         {
             // Read and deserialize the index from the file
@@ -93,28 +99,29 @@ namespace Indexer
             Console.WriteLine("Index loaded successfully from " + filePath);
         }
 
+        // Search for documents similar to a given query
         public List<string> Search(string query, int k)
         {
             // Vectorize the search query using the same vectorizer
-            var queryVector = vectorizer.Transform(new[] { query }).FirstOrDefault(); // Transform the query into a vector
+            var queryVector = vectorizer.TransformToVector(new[] { query }).FirstOrDefault();
 
             // Check if the query vector is empty or null
             if (queryVector == null || queryVector.Count == 0)
             {
                 Console.WriteLine("Query vector is empty. No results can be returned.");
-                return new List<string>(); // Return an empty list if the query vector is not valid
+                return new List<string>();
             }
 
-            // Compute cosine similarity between the query and each document
             var rankedResults = new List<(string, double)>();
 
+            // Iterate over each document in the index
             foreach (var docEntry in index)
             {
                 var docVector = docEntry.Value;
                 var docVectorArray = ToArray(docVector);
                 var queryVectorArray = ToArray(queryVector);
 
-                // Calculate the cosine similarity
+                // Calculate the similarity
                 double similarity = distance.ComputeSimilarity(queryVectorArray, docVectorArray);
 
                 // Check for valid similarity scores
@@ -122,13 +129,6 @@ namespace Indexer
                 {
                     rankedResults.Add((docEntry.Key, similarity));
                 }
-            }
-
-            // Debugging output: Check the similarities calculated
-            Console.WriteLine("Calculated Similarities:");
-            foreach (var result in rankedResults)
-            {
-                Console.WriteLine($"Document: {result.Item1}, Similarity: {result.Item2}");
             }
 
             // Sort results by similarity and return top k results

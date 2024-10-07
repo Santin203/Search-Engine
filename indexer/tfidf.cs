@@ -7,26 +7,28 @@ namespace Indexer
     public class TFIDF : Indexer
     {
         public Dictionary<string, double> Idf { get; private set; }
-        private bool _useIdf;
-        private bool _smoothIdf;
+        private bool useIdf;
+        private bool smoothIdf;
 
         public TFIDF(bool useIdf = true, bool smoothIdf = true)
         {
             Idf = new Dictionary<string, double>();
-            _useIdf = useIdf;
-            _smoothIdf = smoothIdf;
+            this.useIdf = useIdf;
+            this.smoothIdf = smoothIdf;
         }
 
+        // Fit the model with the documents
         public override void Fit(string[] documents)
         {
             Documents = documents;
             BuildVocabulary(documents);
-            if (_useIdf)
+            if (useIdf)
             {
                 ComputeIdf();
             }
         }
 
+        // Compute the Inverse Document Frequency (IDF) values for the terms
         protected override void ComputeIdf()
         {
             int docCount = Documents.Length;
@@ -35,12 +37,13 @@ namespace Indexer
             //Compute IDF
             foreach (var token in Vocabulary.Keys)
             {
-                double idfValue = Math.Log((double)(docCount + (_smoothIdf ? 1 : 0)) / 
-                                           (docFrequency.ContainsKey(token) ? docFrequency[token] + (_smoothIdf ? 1 : 0) : 1)) + 1;
+                double idfValue = Math.Log((double)(docCount + (smoothIdf ? 1 : 0)) / 
+                                           (docFrequency.ContainsKey(token) ? docFrequency[token] + (smoothIdf ? 1 : 0) : 1)) + 1;
                 Idf[token] = idfValue;
             }
         }
 
+        // Compute the TF-IDF vector for a document
         protected override Dictionary<string, double> ComputeVector(List<string> words)
         {
             //Make new tfidf vector 
@@ -55,7 +58,7 @@ namespace Indexer
                 if (Vocabulary.ContainsKey(term))
                 {
                     double tfidfValue = termFrequency[term];
-                    if (_useIdf && Idf.ContainsKey(term))
+                    if (useIdf && Idf.ContainsKey(term))
                     {
                         tfidfValue *= Idf[term];
                     }

@@ -2,16 +2,12 @@ using System.Xml;
 
 namespace Indexer
 {
-        public class XmlFile : Files
+    public class XmlFile : Files
     {
         public XmlFile()
         {
         }
 
-        public XmlFile(string data)
-            : base(data)
-        {
-        }
 
         protected override string GetRawText(string filePath)
         {
@@ -29,7 +25,7 @@ namespace Indexer
 
             return fileData;
         }
-
+        
         private string ExtractContent(XmlNode node)
         {
             string result = "";
