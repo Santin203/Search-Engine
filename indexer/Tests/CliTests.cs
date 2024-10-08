@@ -23,7 +23,7 @@ namespace Indexer.Tests
         {
             // Arrange
             var cli = new Cli(_searchEngine);
-            var inputs = new StringReader("index\n1\n1\nC:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\nexit\n");
+            var inputs = new StringReader("index\n1\nC:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\nexit\n");
             Console.SetIn(inputs); // Simulate user input
 
             // Act
@@ -42,7 +42,7 @@ namespace Indexer.Tests
         {
             // Arrange
             var cli = new Cli(_searchEngine);
-            var inputs = new StringReader("search\nTest Query\n3\nexit\n");
+            var inputs = new StringReader("search\n1\nTest Query\n3\nexit\n");
             Console.SetIn(inputs); // Simulate user input
 
             // Act
@@ -104,7 +104,7 @@ namespace Indexer.Tests
         {
             // Arrange
             var cli = new Cli(_searchEngine);
-            var inputs = new StringReader("index\n1\n1\n\nexit\n");
+            var inputs = new StringReader("index\n1\n\nexit\n");
             Console.SetIn(inputs); // Simulate user input
 
             // Act
@@ -119,7 +119,7 @@ namespace Indexer.Tests
         {
             // Arrange
             var cli = new Cli(_searchEngine);
-            var inputs = new StringReader("search\nTest\ninvalid\nexit\n");
+            var inputs = new StringReader("search\n1\nTest\ninvalid\nexit\n");
             Console.SetIn(inputs); // Simulate user input
 
             // Act
@@ -134,7 +134,7 @@ namespace Indexer.Tests
         {
             // Arrange
             var cli = new Cli(_searchEngine);
-            var inputs = new StringReader("search\n\n3\nexit\n");
+            var inputs = new StringReader("search\n1\n\n3\nexit\n");
             Console.SetIn(inputs); // Simulate user input
 
             // Act

@@ -47,6 +47,16 @@ namespace Indexer
             }
         }
 
+        public Indexer GetVectorizer()
+        {
+            return vectorizer;
+        }
+
+        public SearchEngine GetDistance()
+        {
+            return distance;
+        }
+
         // Index a folder of documents
         public void IndexFolder(string folderPath)
         {

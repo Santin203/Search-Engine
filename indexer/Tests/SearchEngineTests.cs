@@ -23,11 +23,13 @@ namespace Indexer.Tests
             double[] vectorA = { 1.0, 2.0, 3.0 };
             double[] vectorB = { 1.0, 2.0 };
 
-            // Act
-            _searchEngine.ComputeSimilarity(vectorA, vectorB);
+            SearchEngine cosineTest = new CosineSimilarity();
 
-            // Assert
-            Assert.Contains("Error: Vector lengths do not match.", _output.ToString());
+            // Act & Assert
+            var exception = Assert.Throws<ArgumentException>(() => cosineTest.ComputeSimilarity(vectorA, vectorB));
+
+            // Optionally, you can check the exception message as well
+            Assert.Equal("Vectors must have the same length for cosine similarity.", exception.Message);
         }
 
         [Fact]
@@ -38,10 +40,10 @@ namespace Indexer.Tests
             double[] vectorB = { 4.0, 5.0, 6.0 };
 
             // Act
-            _searchEngine.ComputeSimilarity(vectorA, vectorB);
+            double result = _searchEngine.ComputeSimilarity(vectorA, vectorB);
 
             // Assert
-            Assert.DoesNotContain("Error: Vector lengths do not match.", _output.ToString());
+            Assert.Equal(1,result);
         }
 
         [Fact]

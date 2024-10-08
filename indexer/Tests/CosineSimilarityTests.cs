@@ -32,7 +32,7 @@ namespace Indexer.Tests
         }
 
         [Fact]
-        public void ComputeSimilarity_VectorsWithZeroMagnitude_ReturnsNaN()
+        public void ComputeSimilarity_VectorsWithZeroMagnitude_ReturnsZero()
         {
             // Arrange
             double[] vectorA = { 0.0, 0.0, 0.0 };
@@ -42,7 +42,7 @@ namespace Indexer.Tests
             double result = _cosineSimilarity.ComputeSimilarity(vectorA, vectorB);  //Division by 0
 
             // Assert
-            Assert.Equal(double.NaN, result);
+            Assert.Equal(0, result);
         }
 
         [Fact]
@@ -66,11 +66,13 @@ namespace Indexer.Tests
             double[] vectorA = { 1.0, 2.0 };
             double[] vectorB = { 1.0, 2.0, 3.0 };
 
-            // Act
-            double result = _cosineSimilarity.ComputeSimilarity(vectorA, vectorB);
+            SearchEngine cosineTest = new CosineSimilarity();
 
-            // Assert
-            Assert.True(result == 0.0); // Expecting 0.0 because value is default
+            // Act & Assert
+            var exception = Assert.Throws<ArgumentException>(() => cosineTest.ComputeSimilarity(vectorA, vectorB));
+
+            // Optionally, you can check the exception message as well
+            Assert.Equal("Vectors must have the same length for cosine similarity.", exception.Message);
         }
 
         [Fact]
@@ -98,7 +100,7 @@ namespace Indexer.Tests
             double result = _cosineSimilarity.ComputeSimilarity(vectorA, vectorB);
 
             // Assert
-            Assert.Equal(double.NaN, result);
+            Assert.Equal(0, result);
         }
     }
 }

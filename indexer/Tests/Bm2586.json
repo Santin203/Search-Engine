@@ -1,0 +1,55 @@
+{
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\csv_test.csv": {
+    "test": 0.027615317765847403,
+    "word": 0.5740256826666239,
+    "1": 0.3836735314301312,
+    "hello": 0.5740256826666239,
+    "2": 0.3836735314301312,
+    "world": 0.5740256826666239,
+    "3": 0.3836735314301312,
+    "hawaii": 0.38049864270817,
+    "4": 0.5740256826666239,
+    "5": 0.5740256826666239
+  },
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\html_test.html": {
+    "html": 1.973419077312791,
+    "test": 0.0949375551491274
+  },
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\json_file.json": {
+    "test": 0.033565889026867426,
+    "1": 0.4663478178207714,
+    "test2": 0.2564003008776718,
+    "test3": 0.2564003008776718,
+    "test4": 0.2564003008776718,
+    "2": 0.4663478178207714,
+    "test5": 0.2564003008776718,
+    "3": 0.2564003008776718,
+    "hawaii": 0.39339261664711794,
+    "test6": 0.2564003008776718,
+    "test7": 0.2564003008776718,
+    "test8": 0.2564003008776718
+  },
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\pdf_test.pdf": {
+    "test": 0.11120345205597679,
+    "pdf": 0.8893564648294612,
+    "hawaii": 0.25508655237135397
+  },
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\text_file.txt": {
+    "text": 1.3266043411755652,
+    "file": 1.3266043411755652,
+    "test": 0.0949375551491274
+  },
+  "C:\\Users\\jgabr\\Documents\\Code\\C#\\CS2365\\Project #1\\csharp-Search-Engine\\test_files\\xml_test.xml": {
+    "xml": 0.3836083172029696,
+    "test": 0.08698537846139254,
+    "test2": 0.2564003008776718,
+    "hawaii": 0.20012029341014456,
+    "test3": 0.2564003008776718,
+    "test4": 0.2564003008776718,
+    "test5": 0.2564003008776718,
+    "test6": 0.2564003008776718,
+    "test7": 0.2564003008776718,
+    "test8": 0.2564003008776718,
+    "test9": 0.3836083172029696
+  }
+}
